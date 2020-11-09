@@ -3,6 +3,8 @@ class AtomicFileOps: NSObject {
 
     @objc(multiply:withB:withResolver:withRejecter:)
     func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-        resolve(a*b)
+        AtomicFileHandler.multiplyAsync(a: a, b: b) { (retVal) in
+            resolve(retVal)
+        }
     }
 }

@@ -7,11 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-
-
-		F4FF95D7245B92E800C19C63 /*  AtomicFileOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /*  AtomicFileOps.swift */; };
-
-		5E555C0D2413F4C50049A1A2 /* AtomicFileOps.mm in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* AtomicFileOps.mm */; };
+		D37D70D72559A69700CF9548 /* AtomicFileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37D70D62559A69700CF9548 /* AtomicFileHandler.swift */; };
+		F4FF95D7245B92E800C19C63 /* AtomicFileOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FF95D6245B92E800C19C63 /* AtomicFileOps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,12 +25,10 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libAtomicFileOps.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAtomicFileOps.a; sourceTree = BUILT_PRODUCTS_DIR; };
-
-
 		B3E7B5891CC2AC0600A0062D /* AtomicFileOps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AtomicFileOps.m; sourceTree = "<group>"; };
+		D37D70D62559A69700CF9548 /* AtomicFileHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AtomicFileHandler.swift; path = AtomicFileOperations/AtomicFileOperations/AtomicFileHandler.swift; sourceTree = "<group>"; };
 		F4FF95D5245B92E700C19C63 /* AtomicFileOps-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AtomicFileOps-Bridging-Header.h"; sourceTree = "<group>"; };
 		F4FF95D6245B92E800C19C63 /* AtomicFileOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicFileOps.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,14 +53,20 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-
-
 				F4FF95D6245B92E800C19C63 /* AtomicFileOps.swift */,
 				B3E7B5891CC2AC0600A0062D /* AtomicFileOps.m */,
 				F4FF95D5245B92E700C19C63 /* AtomicFileOps-Bridging-Header.h */,
-
+				D37D70D52559A67900CF9548 /* AtomicFileOperationsFramework */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		D37D70D52559A67900CF9548 /* AtomicFileOperationsFramework */ = {
+			isa = PBXGroup;
+			children = (
+				D37D70D62559A69700CF9548 /* AtomicFileHandler.swift */,
+			);
+			name = AtomicFileOperationsFramework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,11 +126,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-
 				F4FF95D7245B92E800C19C63 /* AtomicFileOps.swift in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* AtomicFileOps.m in Sources */,
-
+				D37D70D72559A69700CF9548 /* AtomicFileHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,11 +240,9 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AtomicFileOps;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "AtomicFileOps-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Debug;
 		};
@@ -263,10 +259,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = AtomicFileOps;
 				SKIP_INSTALL = YES;
-
 				SWIFT_OBJC_BRIDGING_HEADER = "AtomicFileOps-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-
 			};
 			name = Release;
 		};
