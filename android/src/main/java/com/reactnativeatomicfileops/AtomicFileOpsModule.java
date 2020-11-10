@@ -1,7 +1,9 @@
 package com.reactnativeatomicfileops;
 
+import android.os.Build;
 import android.util.Base64;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.util.AtomicFile;
 
 import com.facebook.react.bridge.Promise;
@@ -13,6 +15,9 @@ import com.facebook.react.bridge.ReadableMap;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.charset.UnsupportedCharsetException;
 
 
 public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
@@ -35,10 +40,23 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
         promise.resolve(a * b);
     }
 
+    //JavaScript doesn't have a characterset type, so we have to pass a String in
     @ReactMethod
-    public void writeFile(String filePath, String base64Data, ReadableMap options, Promise promise) {
+    public void writeFile(String filePath, String contents, String characterSetName, Promise promise) {
+
+      Charset charset;
+      try {
+        charset = Charset.forName(characterSetName);
+        writeFile(filePath, contents, charset, promise);
+      } catch (Exception ex) {
+        promise.reject(ex);
+      }
+    }
+
+    //Typesafe method that knows what a characterset is
+    private void writeFile(String filePath, String contents, Charset characterSet, Promise promise) {
         try {
-            byte[] data = Base64.decode(base64Data, Base64.DEFAULT);
+          byte[] data = contents.getBytes(characterSet);
 
             File file = new File(filePath);
             AtomicFile af = new AtomicFile(file);
