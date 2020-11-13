@@ -1,18 +1,20 @@
+import Foundation
+
 @objc(AtomicFileOps)
 class AtomicFileOps: NSObject {
 
     @objc(multiply:withB:withResolver:withRejecter:)
-    func (a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+    func createURLs(fileName: String, fileContent: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) -> Void {
         
         let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
-        let fileURL = URL(fileURLWithPath: "Test Message", relativeTo: directoryURL).appendingPathExtension("txt")
+        let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryURL).appendingPathExtension("txt")
         
-        let myContent = "This is a test."
+        let content = fileContent
         
-        let data = myContent.data(using: .utf8)
+        let data = content.data(using: .utf8)
         
-        AtomicFileHandler.multiplyAsync(a: a, b: b) { (retVal) in
+        AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal) in
             resolve(retVal)
         }
     }
