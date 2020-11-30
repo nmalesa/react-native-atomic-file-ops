@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { Tester, TestHookStore } from 'cavy';
-import ExampleSpec from './specs/exampleSpec';
+import AtomicFileWritingSpec from './specs/atomicFileWritingSpec';
+import FileWritingTestHelper from './specs/fileWritingTestHelper';
+import { name as appName } from './app.json';
 
 const testHookStore = new TestHookStore();
 
 class AppWrapper extends Component {
   render() {
     return (
-      <Tester specs={[ExampleSpec]} store={testHookStore}>
-        // Your app goes here
+      <Tester specs={[AtomicFileWritingSpec]} store={testHookStore}>
+        <FileWritingTestHelper />
       </Tester>
     );
   }
 }
 
-AppRegistry.registerComponent('yourAppName', () => AppWrapper);
+AppRegistry.registerComponent(appName, () => AppWrapper);
