@@ -15,7 +15,9 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/runtime": "^7.9.6",
+    "@types/cavy": "^3.2.0",
     "babel-plugin-module-resolver": "^4.0.0",
+    "cavy": "^4.0.1",
     "metro-react-native-babel-preset": "^0.59.0"
   }
 }
