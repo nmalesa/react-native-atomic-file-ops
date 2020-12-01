@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { useCavy, wrap, hook } from 'cavy';
 import { Text } from 'react-native';
+import AtomicFileOps from 'react-native-atomic-file-ops';
 
 export default function FileWritingTestHelper(props) {
   const [value, setValue] = useState('');
   const generateTestHook = useCavy();
 
-  const onChangeText = (value) => {
+  const onChangeText = async (value) => {
     console.log("FileWritingTestHelper: Changed value to: '" + value + "'");
-    setValue(value);
+
+    await AtomicFileOps.writeFile("test_file.json", value['value'], "UTF8");
+
+    setValue(value['value']);
+
   };
 
   return (
@@ -37,7 +42,7 @@ class WrapperFuncComponent extends React.Component {
 const TestableWrapperFuncComponent = hook(WrapperFuncComponent);
 
 export async function hasValue(element, expected) {
-  const actual = element.props.value['value'];
+  const actual = element.props.value;
   var seen = [];
 
   console.log("Actual value is: "  + JSON.stringify(actual, function(key, val) {
