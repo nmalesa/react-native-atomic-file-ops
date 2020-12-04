@@ -18,11 +18,17 @@ class AtomicFileOperationsTests: XCTestCase {
         }
     }
     
-    //    func testSaveData() throws {
-    //        AtomicFileHandler.saveData(data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187], filePath: "Cats") { (retVal) in
-    //            XCTAssertEqual("😸😹😺😻", retVal)
-    //        }
-    //    }
+//        func testSaveData() throws {
+//            AtomicFileHandler.saveData(data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187], filePath: "Cats") { (retVal) in
+//                XCTAssertEqual("😸😹😺😻", retVal)
+//            }
+//        }
+    
+        func testWriteFile() throws {
+            AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", pets: ["Cats", "Dogs", "Fish", "Lizards"]) { (retVal, error) in
+                XCTAssertEqual("Cats", retVal)
+            }
+        }
     
     
 //   func testSaveData() throws {
@@ -31,15 +37,17 @@ class AtomicFileOperationsTests: XCTestCase {
 //        }
 //    }
     
-    func testSaveData() throws {
-        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
-            XCTAssertEqual("delectus aut autem", retVal)
-        }
-    }
+//    func testSaveData() throws {
+//        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
+//            XCTAssertEqual("delectus aut autem", retVal)
+//        }
+//    }
     
-    func testWriteFile() throws {
-        
-    }
+//    func testWriteFile() throws {
+//        AtomicFileHandler.writeAtomicFile((filePath: "Todos", animals: ["Cats", "Dogs", "Fish", "Lizards"]), { (retVal, error) in
+//            XCTAssertEqual("Cats", retVal)
+//        }
+//    }
    
    
     
