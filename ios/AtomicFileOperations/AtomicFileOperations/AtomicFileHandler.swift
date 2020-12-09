@@ -69,23 +69,16 @@ class AtomicFileHandler {
         }
 
         session.dataTask(with: url) {data, response, error in
-            do {
                 if error != nil {
                     completionHandler(nil, error)
                     return
                 }
 
-                guard case let data = [UInt8](data!) else {
-                    completionHandler(nil, URLError(.badServerResponse))
-                    return
-                }
+                let data = [UInt8](data!) 
                 
                 let output = writeAtomicFile(filePath: filePath, data: data)
 
                 completionHandler(output, nil)
-            } catch let error {
-                completionHandler(nil, error)
-            }
         }
     }
     
