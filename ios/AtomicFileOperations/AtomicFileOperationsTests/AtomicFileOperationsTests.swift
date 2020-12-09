@@ -54,16 +54,6 @@ class AtomicFileOperationsTests: XCTestCase {
         AtomicFileHandler.saveData(api: "https://raw.githubusercontent.com/nmalesa/cat-emojis/gh-pages/index.md", filePath: "Cats") { (retVal, error) in
             XCTAssertEqual("😸😹😺😻", retVal)
         }
-    
-
-    
-    
-//    func testWriteFile() throws {
-//        AtomicFileHandler.writeAtomicFile((filePath: "Todos", animals: ["Cats", "Dogs", "Fish", "Lizards"]), { (retVal, error) in
-//            XCTAssertEqual("Cats", retVal)
-//        }
-//    }
-   
    
     
     func testWriteCatsFile() throws {
