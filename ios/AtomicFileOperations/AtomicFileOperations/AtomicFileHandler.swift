@@ -36,7 +36,7 @@ class AtomicFileHandler {
     //            let testOutput = try String(contentsOf: url)
 
     
-    public static func writeAtomicFile(filePath: String, data: [UInt8], completionHandler:(String?, Error?) -> Void) -> Void {
+    public static func writeAtomicFile(filePath: String, data: [UInt8]) -> String {
         let url = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
 
         let inputtedData = Data(data)
@@ -52,9 +52,11 @@ class AtomicFileHandler {
             
             let testOutput = try String(contentsOf: url)
             
-            completionHandler(testOutput, nil)
-        } catch let error {
-          completionHandler(nil, error)
+            return testOutput
+        } catch {
+            let errorMessage = "Error: \(Error.self)"
+            
+            return errorMessage
         }
     }
     
@@ -77,8 +79,10 @@ class AtomicFileHandler {
                     completionHandler(nil, URLError(.badServerResponse))
                     return
                 }
+                
+                let output = writeAtomicFile(filePath: filePath, data: data)
 
-                writeAtomicFile(filePath: filePath, data: data, completionHandler: (retVal, error))
+                completionHandler(output, nil)
             } catch let error {
                 completionHandler(nil, error)
             }
