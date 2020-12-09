@@ -12,6 +12,7 @@
 		D37D70C52559A24300CF9548 /* AtomicFileOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = D37D70B72559A24300CF9548 /* AtomicFileOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D37D70D12559A2A300CF9548 /* AtomicFileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37D70D02559A2A300CF9548 /* AtomicFileHandler.swift */; };
 		F9289CDE2579515F00056670 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9289CDD2579515F00056670 /* FileManager.swift */; };
+		F98B2A1C257EE110002705B5 /* Users.json in Resources */ = {isa = PBXBuildFile; fileRef = F98B2A1B257EE110002705B5 /* Users.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		D37D70C42559A24300CF9548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D37D70D02559A2A300CF9548 /* AtomicFileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicFileHandler.swift; sourceTree = "<group>"; };
 		F9289CDD2579515F00056670 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		F98B2A1B257EE110002705B5 /* Users.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Users.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 		D37D70B62559A24300CF9548 /* AtomicFileOperations */ = {
 			isa = PBXGroup;
 			children = (
+				F98B2A1A257EE0F9002705B5 /* Resources */,
 				F9289CDC2579514700056670 /* Extensions */,
 				D37D70B72559A24300CF9548 /* AtomicFileOperations.h */,
 				D37D70B82559A24300CF9548 /* Info.plist */,
@@ -98,6 +101,14 @@
 				F9289CDD2579515F00056670 /* FileManager.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F98B2A1A257EE0F9002705B5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F98B2A1B257EE110002705B5 /* Users.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F98B2A1C257EE110002705B5 /* Users.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

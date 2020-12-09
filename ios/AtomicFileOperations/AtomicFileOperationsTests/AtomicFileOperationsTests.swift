@@ -10,38 +10,45 @@ import XCTest
 
 class AtomicFileOperationsTests: XCTestCase {
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
-            XCTAssertEqual(55.0, retVal)
+//    func testExample() throws {
+//        // This is an example of a functional test case.
+//        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//        AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
+//            XCTAssertEqual(55.0, retVal)
+//        }
+//    }
+    
+//        func testSaveData() throws {
+//            AtomicFileHandler.saveData(data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187], filePath: "Cats") { (retVal)  in
+//                XCTAssertEqual("😸😹😺😻", retVal)
+//            }
+//
+    
+    
+    func testWriteFile() throws {
+        AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]) { (retVal, error) in
+            XCTAssertEqual("😸😹😺😻", retVal)
         }
     }
     
-//        func testSaveData() throws {
-//            AtomicFileHandler.saveData(data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187], filePath: "Cats") { (retVal) in
-//                XCTAssertEqual("😸😹😺😻", retVal)
+
+// WORKING TEST 2
+//        func testWriteFile() throws {
+//            AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", data: ["Cats", "Dogs", "Fish", "Lizards"]) { (retVal, error) in
+//                XCTAssertEqual("Cats", retVal)
 //            }
 //        }
-    
-        func testWriteFile() throws {
-            AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", pets: ["Cats", "Dogs", "Fish", "Lizards"]) { (retVal, error) in
-                XCTAssertEqual("Cats", retVal)
-            }
+//
+
+//  WORKING TEST 3
+    func testSaveData() throws {
+        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
+            XCTAssertEqual("delectus aut autem", retVal)
         }
+    }
     
+
     
-//   func testSaveData() throws {
-//        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos") { (retVal) in
-//            XCTAssertEqual("delectus aut autem", retVal)
-//        }
-//    }
-    
-//    func testSaveData() throws {
-//        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
-//            XCTAssertEqual("delectus aut autem", retVal)
-//        }
-//    }
     
 //    func testWriteFile() throws {
 //        AtomicFileHandler.writeAtomicFile((filePath: "Todos", animals: ["Cats", "Dogs", "Fish", "Lizards"]), { (retVal, error) in

@@ -8,23 +8,110 @@
 import Foundation
 
 class AtomicFileHandler {
+    
+    
+//    func add(num1:Int, num2:Int) -> Int {
+//        return num1 + num2
+//    }
+//
+//    func addTwoNumbers(num1: Int, num2: Int) -> Int {
+//        add(num1: num1, num2: num2)
+//    }
+//
+//    print(addTwoNumbers(num1: 4, num2: 6))
+    
+//    struct Response: Codable {
+//        let title: String
+//    }
+    
+    
+    // try inputtedData.write(to: url.appendingPathExtension("txt"))
+    //
+    //            let savedData = try Data(contentsOf: url)
+    //
+    //            let output = String(data: savedData, encoding: .utf8)!
+    //
+    //            try output.write(to: url, atomically: true, encoding: .utf8)
+    //
+    //            let testOutput = try String(contentsOf: url)
 
-    public static func writeAtomicFile(filePath: String, pets: [String], completionHandler:(String?, Error?) -> Void) -> Void {
-        let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
-        
-        let firstItem = pets.first ?? "Error:  No pets listed."
-        
+    
+    public static func writeAtomicFile(filePath: String, data: [UInt8], completionHandler:(String?, Error?) -> Void) -> Void {
+        let url = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
+
+        let inputtedData = Data(data)
+    
+
         do {
-            try firstItem.write(to: fileURL, atomically: true, encoding: .utf8)
+            try inputtedData.write(to: url)
+          
+            let savedData = try Data(contentsOf: url)
             
-            let testOutput = try String(contentsOf: fileURL)
+            let output = String(data: savedData, encoding: .utf8)
+            
+            try output?.write(to: url, atomically: true, encoding: .utf8)
+            
+            let testOutput = try String(contentsOf: url)
             
             completionHandler(testOutput, nil)
         } catch let error {
-            completionHandler(nil, error)
+          completionHandler(nil, error)
         }
-     }
+    }
     
+    
+    
+// WORKING WRITE FUNCTION WITH HARDCODED ARRAY OF STRINGS (WORKING TEST 2)
+//    public static func writeAtomicFile(filePath: String, data: [String], completionHandler:(String?, Error?) -> Void) -> Void {
+//        let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
+//
+//        let firstItem = data.first ?? "Error: No items listed."
+//
+//        do {
+//          try firstItem.write(to: fileURL, atomically: true, encoding: .utf8)
+//          let testOutput = try String(contentsOf: fileURL)
+//          completionHandler(testOutput, nil)
+//        } catch let error {
+//          completionHandler(nil, error)
+//        }
+//    }
+//
+//    public static func saveData(api: String, filePath: String, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
+//        struct Response: Codable {
+//            let title: String
+//        }
+//
+//        let session: URLSession = URLSession(configuration: .default)
+//
+//        guard let url = URL(string: api) else {
+//            completionHandler(nil, URLError(.badURL))
+//            return
+//        }
+//
+//        session.dataTask(with: url) {data, response, error in
+//            do {
+//                if error != nil {
+//                    completionHandler(nil, error)
+//                    return
+//                }
+//
+//                guard let data = data else {
+//                    completionHandler(nil, URLError(.badServerResponse))
+//                    return
+//                }
+//
+//                let response = try JSONDecoder().decode([Response].self, from: data)
+//
+//                writeAtomicFile(filePath: filePath, data: [response], completionHandler: <#T##(String?, Error?) -> Void#>)
+//
+//            } catch let error {
+//                completionHandler(nil, error)
+//            }
+//        }
+//    }
+    
+    
+//   WORKING SAVEDATA FUNCTION WITH FETCH AND WRITE FUNCTIONALITY (TEST 3)
 //    public static func saveData(api: String, filePath: String, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
 //
 //        // Dependent on whether or not data is in JSON format.  "title" specifically for testing todos dataset.
@@ -53,23 +140,69 @@ class AtomicFileHandler {
 //
 //                let res = try JSONDecoder().decode([Response].self, from: data)
 //
-////                let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
-////
-////                // Specifically for testing todos dataset.  Need to revise for universal use.
-////                if let todoData = res.first?.title {
-////                    try todoData.write(to: fileURL, atomically: true, encoding: .utf8)
-////
-////                    let testOutput = try String(contentsOf: fileURL)
-////
-////                    completionHandler(testOutput, nil)
-////                } else {
-////                    completionHandler(nil, URLError(.badServerResponse))
-////                }
+//                let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
+//
+//                // Specifically for testing todos dataset.  Need to revise for universal use.
+//                if let todoData = res.first?.title {
+//                    try todoData.write(to: fileURL, atomically: true, encoding: .utf8)
+//
+//                    let testOutput = try String(contentsOf: fileURL)
+//
+//                    completionHandler(testOutput, nil)
+//                } else {
+//                    completionHandler(nil, URLError(.badServerResponse))
+//                }
 //            } catch let error {
 //                completionHandler(nil, error)
 //            }
 //        }
 //    }
+    
+    public static func saveData(api: String, filePath: String, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
+
+        // Dependent on whether or not data is in JSON format.  "title" specifically for testing todos dataset.
+        struct Response: Codable {
+            let title: String
+        }
+
+        let session: URLSession = URLSession(configuration: .default)
+
+        guard let url = URL(string: api) else {
+            completionHandler(nil, URLError(.badURL))
+            return
+        }
+
+        session.dataTask(with: url) {data, response, error in
+            do {
+                if error != nil {
+                    completionHandler(nil, error)
+                    return
+                }
+
+                guard let data = data else {
+                    completionHandler(nil, URLError(.badServerResponse))
+                    return
+                }
+
+                let res = try JSONDecoder().decode([Response].self, from: data)
+
+                let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
+
+                // Specifically for testing todos dataset.  Need to revise for universal use.
+                if let todoData = res.first?.title {
+                    try todoData.write(to: fileURL, atomically: true, encoding: .utf8)
+
+                    let testOutput = try String(contentsOf: fileURL)
+
+                    completionHandler(testOutput, nil)
+                } else {
+                    completionHandler(nil, URLError(.badServerResponse))
+                }
+            } catch let error {
+                completionHandler(nil, error)
+            }
+        }
+    }
     
     public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
             completionHandler(a * b)
@@ -80,7 +213,7 @@ class AtomicFileHandler {
 
 
 
-
+//  WORKING SAVEDATA FUNCTION WITH FETCH FUNCTIONALITY
 //    public static func saveData(api: String, completionHandler:@escaping (String) -> Void) -> Void {
 //        struct Response: Codable {
 //            let title: String
@@ -101,7 +234,7 @@ class AtomicFileHandler {
 //        }.resume()
 //    }
 
-
+//  WORKING SAVEDATA FUNCTION WITH WRITE FUNCTIONALITY
 //    public static func saveData(data: [UInt8], filePath: String, completionHandler:(String) -> Void) -> Void {
 //        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 //
