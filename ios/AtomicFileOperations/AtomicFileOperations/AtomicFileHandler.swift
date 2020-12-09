@@ -41,7 +41,6 @@ class AtomicFileHandler {
 
         let inputtedData = Data(data)
     
-
         do {
             try inputtedData.write(to: url)
           
@@ -59,56 +58,54 @@ class AtomicFileHandler {
         }
     }
     
+    public static func saveData(api: String, filePath: String, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
+        let session: URLSession = URLSession(configuration: .default)
+
+        guard let url = URL(string: api) else {
+            completionHandler(nil, URLError(.badURL))
+            return
+        }
+
+        session.dataTask(with: url) {data, response, error in
+            do {
+                if error != nil {
+                    completionHandler(nil, error)
+                    return
+                }
+
+                guard case let data = [UInt8](data!) else {
+                    completionHandler(nil, URLError(.badServerResponse))
+                    return
+                }
+
+                writeAtomicFile(filePath: filePath, data: data, completionHandler: (retVal, error))
+            } catch let error {
+                completionHandler(nil, error)
+            }
+        }
+    }
     
     
-// WORKING WRITE FUNCTION WITH HARDCODED ARRAY OF STRINGS (WORKING TEST 2)
-//    public static func writeAtomicFile(filePath: String, data: [String], completionHandler:(String?, Error?) -> Void) -> Void {
-//        let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
-//
-//        let firstItem = data.first ?? "Error: No items listed."
-//
-//        do {
-//          try firstItem.write(to: fileURL, atomically: true, encoding: .utf8)
-//          let testOutput = try String(contentsOf: fileURL)
-//          completionHandler(testOutput, nil)
-//        } catch let error {
-//          completionHandler(nil, error)
-//        }
-//    }
-//
-//    public static func saveData(api: String, filePath: String, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
-//        struct Response: Codable {
-//            let title: String
-//        }
-//
-//        let session: URLSession = URLSession(configuration: .default)
-//
-//        guard let url = URL(string: api) else {
-//            completionHandler(nil, URLError(.badURL))
-//            return
-//        }
-//
-//        session.dataTask(with: url) {data, response, error in
-//            do {
-//                if error != nil {
-//                    completionHandler(nil, error)
-//                    return
-//                }
-//
-//                guard let data = data else {
-//                    completionHandler(nil, URLError(.badServerResponse))
-//                    return
-//                }
-//
-//                let response = try JSONDecoder().decode([Response].self, from: data)
-//
-//                writeAtomicFile(filePath: filePath, data: [response], completionHandler: <#T##(String?, Error?) -> Void#>)
-//
-//            } catch let error {
-//                completionHandler(nil, error)
-//            }
-//        }
-//    }
+    
+    
+    
+    
+    
+    
+    // WORKING WRITE FUNCTION WITH HARDCODED ARRAY OF STRINGS (WORKING TEST 2)
+    //    public static func writeAtomicFile(filePath: String, data: [String], completionHandler:(String?, Error?) -> Void) -> Void {
+    //        let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
+    //
+    //        let firstItem = data.first ?? "Error: No items listed."
+    //
+    //        do {
+    //          try firstItem.write(to: fileURL, atomically: true, encoding: .utf8)
+    //          let testOutput = try String(contentsOf: fileURL)
+    //          completionHandler(testOutput, nil)
+    //        } catch let error {
+    //          completionHandler(nil, error)
+    //        }
+    //    }
     
     
 //   WORKING SAVEDATA FUNCTION WITH FETCH AND WRITE FUNCTIONALITY (TEST 3)
@@ -158,51 +155,7 @@ class AtomicFileHandler {
 //        }
 //    }
     
-    public static func saveData(api: String, filePath: String, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
-
-        // Dependent on whether or not data is in JSON format.  "title" specifically for testing todos dataset.
-        struct Response: Codable {
-            let title: String
-        }
-
-        let session: URLSession = URLSession(configuration: .default)
-
-        guard let url = URL(string: api) else {
-            completionHandler(nil, URLError(.badURL))
-            return
-        }
-
-        session.dataTask(with: url) {data, response, error in
-            do {
-                if error != nil {
-                    completionHandler(nil, error)
-                    return
-                }
-
-                guard let data = data else {
-                    completionHandler(nil, URLError(.badServerResponse))
-                    return
-                }
-
-                let res = try JSONDecoder().decode([Response].self, from: data)
-
-                let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
-
-                // Specifically for testing todos dataset.  Need to revise for universal use.
-                if let todoData = res.first?.title {
-                    try todoData.write(to: fileURL, atomically: true, encoding: .utf8)
-
-                    let testOutput = try String(contentsOf: fileURL)
-
-                    completionHandler(testOutput, nil)
-                } else {
-                    completionHandler(nil, URLError(.badServerResponse))
-                }
-            } catch let error {
-                completionHandler(nil, error)
-            }
-        }
-    }
+    
     
     public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
             completionHandler(a * b)

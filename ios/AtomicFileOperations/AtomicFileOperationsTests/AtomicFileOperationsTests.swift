@@ -23,13 +23,15 @@ class AtomicFileOperationsTests: XCTestCase {
 //                XCTAssertEqual("😸😹😺😻", retVal)
 //            }
 //
+//    let cats: [UInt8] = [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]
+//
+//    func testWriteFile() throws {
+//        AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", data: cats) { (retVal, error) in
+//            XCTAssertEqual("😸😹😺😻", retVal)
+//        }
+//    }
     
-    
-    func testWriteFile() throws {
-        AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]) { (retVal, error) in
-            XCTAssertEqual("😸😹😺😻", retVal)
-        }
-    }
+
     
 
 // WORKING TEST 2
@@ -41,11 +43,17 @@ class AtomicFileOperationsTests: XCTestCase {
 //
 
 //  WORKING TEST 3
+//    func testSaveData() throws {
+//        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
+//            XCTAssertEqual("delectus aut autem", retVal)
+//        }
+//    }
+    
+    
     func testSaveData() throws {
-        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
-            XCTAssertEqual("delectus aut autem", retVal)
+        AtomicFileHandler.saveData(api: "https://raw.githubusercontent.com/nmalesa/cat-emojis/gh-pages/index.md", filePath: "Cats") { (retVal, error) in
+            XCTAssertEqual("😸😹😺😻", retVal)
         }
-    }
     
 
     
