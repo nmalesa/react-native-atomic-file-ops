@@ -35,14 +35,14 @@ class AtomicFileHandler {
     //
     //            let testOutput = try String(contentsOf: url)
 
-    
-    public static func writeAtomicFile(filePath: String, data: [UInt8]) -> String {
-        let url = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
 
-        let inputtedData = Data(data)
+    
+// REFACTOR SAVEDATA AND WRITEATOMICFILE TO A) USE UINT8 DATA INSTEAD OF JSON; AND B) USE WRITEATOMICFILE INSIDE OF SAVEDATA (TEST #4)
+    public static func writeAtomicFile(filePath: String, data: Data) -> String {
+        let url = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension("txt")
     
         do {
-            try inputtedData.write(to: url)
+            try data.write(to: url)
           
             let savedData = try Data(contentsOf: url)
             
@@ -73,8 +73,11 @@ class AtomicFileHandler {
                     completionHandler(nil, error)
                     return
                 }
-
-                let data = [UInt8](data!) 
+            
+                guard let data = data else {
+                    completionHandler(nil, URLError(.badServerResponse))
+                    return
+                }
                 
                 let output = writeAtomicFile(filePath: filePath, data: data)
 
