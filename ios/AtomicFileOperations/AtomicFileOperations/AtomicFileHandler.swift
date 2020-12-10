@@ -9,12 +9,12 @@ import Foundation
 
 class AtomicFileHandler {
     
-    // VERSION 1 FROM ATOMICFILEOPS:  Writing atomic file functionality ONLY
-    public static func saveData(fileURL: url, data: data, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
+    // VERSION FROM ATOMICFILEOPS
+    public static func saveData(fileURL: fileURL, data: data, completionHandler:@escaping (String?, Error?) -> Void) -> Void {
         do {
-            try data.write(to: url)
+            try data.write(to: fileURL)
             
-            let savedData = try Data(contentsOf: url)
+            let savedData = try Data(contentsOf: fileURL)
             
             let output = String(data: savedData, encoding: .utf8)
             
