@@ -10,13 +10,13 @@ import XCTest
 
 class AtomicFileOperationsTests: XCTestCase {
 
-//    func testExample() throws {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//        AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
-//            XCTAssertEqual(55.0, retVal)
-//        }
-//    }
+    func testExample() throws {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
+            XCTAssertEqual(55.0, retVal)
+        }
+    }
     
 //        func testSaveData() throws {
 //            AtomicFileHandler.saveData(data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187], filePath: "Cats") { (retVal)  in
@@ -50,40 +50,45 @@ class AtomicFileOperationsTests: XCTestCase {
 //    }
   
     
-// WORKING TEST 4
+// WORKING TEST 4 - REMODEL AFTER TESTFETCHTODOS
     func testSaveData() throws {
+        // let expectation = expectation(description: "Data saved")
+        
         AtomicFileHandler.saveData(api: "https://raw.githubusercontent.com/nmalesa/cat-emojis/gh-pages/index.md", filePath: "Cats") { (retVal, error) in
             XCTAssertEqual("😸😹😺😻", retVal)
         }
    
-    
-    func testWriteCatsFile() throws {
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
-        let cats: [UInt8] = [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]
-
-        let catsData = Data(cats)
-
-        let catsURL = URL(fileURLWithPath: "Cats", relativeTo: documentDirectoryURL)
-
-        try? catsData.write(to: catsURL.appendingPathExtension("txt"))
-
-        guard let savedCatsData = try? Data(contentsOf: catsURL) else
-        {
-            XCTFail("Bad cats data")
-            return
+        waitForExpectations(timeout: 10) { (error) in
+            XCTFail("timeout")
         }
-        
-        let emojis = "😸😹😺😻"
-        
-        let catString = String(data: savedCatsData, encoding: .utf8)
-        
-        try? catString?.write(to: catsURL, atomically: true, encoding: .utf8)
-        
-        let catTestString = try? String(contentsOf: catsURL)
-        
-        XCTAssertEqual(emojis, catTestString)
     }
+//    func testWriteCatsFile() throws {
+//        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//        
+//        let cats: [UInt8] = [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]
+//
+//        let catsData = Data(cats)
+//
+//        let catsURL = URL(fileURLWithPath: "Cats", relativeTo: documentDirectoryURL)
+//
+//        try? catsData.write(to: catsURL.appendingPathExtension("txt"))
+//
+//        guard let savedCatsData = try? Data(contentsOf: catsURL) else
+//        {
+//            XCTFail("Bad cats data")
+//            return
+//        }
+//        
+//        let emojis = "😸😹😺😻"
+//        
+//        let catString = String(data: savedCatsData, encoding: .utf8)
+//        
+//        try? catString?.write(to: catsURL, atomically: true, encoding: .utf8)
+//        
+//        let catTestString = try? String(contentsOf: catsURL)
+//        
+//        XCTAssertEqual(emojis, catTestString)
+//    }
     
     func testFetchTodos() throws {
         let exp = expectation(description: "fetching todos from server")
@@ -155,4 +160,4 @@ class AtomicFileOperationsTests: XCTestCase {
     }
 }
 
-}
+
