@@ -18,146 +18,67 @@ class AtomicFileOperationsTests: XCTestCase {
         }
     }
     
-//        func testSaveData() throws {
-//            AtomicFileHandler.saveData(data: [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187], filePath: "Cats") { (retVal)  in
-//                XCTAssertEqual("😸😹😺😻", retVal)
-//            }
-//
-//    let cats: [UInt8] = [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]
-//
-//    func testWriteFile() throws {
-//        AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", data: cats) { (retVal, error) in
-//            XCTAssertEqual("😸😹😺😻", retVal)
-//        }
-//    }
-    
+    let fileURL = URL(fileURLWithPath: "Cats.txt", relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0])
 
+    let data = Data([240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187])
     
-
-// WORKING TEST 2
-//        func testWriteFile() throws {
-//            AtomicFileHandler.writeAtomicFile(filePath: "Favorite Animals", data: ["Cats", "Dogs", "Fish", "Lizards"]) { (retVal, error) in
-//                XCTAssertEqual("Cats", retVal)
-//            }
-//        }
-//
-
-//  WORKING TEST 3
-//    func testSaveData() throws {
-//        AtomicFileHandler.saveData(api: "https://jsonplaceholder.typicode.com/todos", filePath: "Todos") { (retVal, error) in
-//            XCTAssertEqual("delectus aut autem", retVal)
-//        }
-//    }
-  
-    
-// WORKING TEST 4 - REMODEL AFTER TESTFETCHTODOS
     func testSaveData() throws {
-        // let expectation = expectation(description: "Data saved")
-        
-        AtomicFileHandler.saveData(api: "https://raw.githubusercontent.com/nmalesa/cat-emojis/gh-pages/index.md", filePath: "Cats") { (retVal, error) in
+        AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal, error) in
             XCTAssertEqual("😸😹😺😻", retVal)
         }
-   
-        waitForExpectations(timeout: 10) { (error) in
-            XCTFail("timeout")
-        }
     }
-//    func testWriteCatsFile() throws {
-//        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//        
-//        let cats: [UInt8] = [240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187]
+//    func testFetchTodos() throws {
+//        let exp = expectation(description: "fetching todos from server")
 //
-//        let catsData = Data(cats)
+//        let session: URLSession = URLSession(configuration: .default)
 //
-//        let catsURL = URL(fileURLWithPath: "Cats", relativeTo: documentDirectoryURL)
+//        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
 //
-//        try? catsData.write(to: catsURL.appendingPathExtension("txt"))
+//        session.dataTask(with: url!) {data, response, error in
+//            XCTAssertNil(error)
+//            exp.fulfill()
+//        }.resume()
 //
-//        guard let savedCatsData = try? Data(contentsOf: catsURL) else
-//        {
-//            XCTFail("Bad cats data")
-//            return
+//        waitForExpectations(timeout: 10.0) { (error) in
+//            print(error?.localizedDescription ?? "Error")
 //        }
-//        
-//        let emojis = "😸😹😺😻"
-//        
-//        let catString = String(data: savedCatsData, encoding: .utf8)
-//        
-//        try? catString?.write(to: catsURL, atomically: true, encoding: .utf8)
-//        
-//        let catTestString = try? String(contentsOf: catsURL)
-//        
-//        XCTAssertEqual(emojis, catTestString)
 //    }
     
-    func testFetchTodos() throws {
-        let exp = expectation(description: "fetching todos from server")
-        
-        let session: URLSession = URLSession(configuration: .default)
-        
-        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
-        
-        session.dataTask(with: url!) {data, response, error in
-            XCTAssertNil(error)
-            exp.fulfill()
-        }.resume()
-        
-        waitForExpectations(timeout: 10.0) { (error) in
-            print(error?.localizedDescription ?? "Error")
-        }
-    }
+// WORKING TEST 4 - REMODEL AFTER TESTFETCHTODOS
+//    func testSaveData() throws {
+//        let exp = expectation(description: "Fetches data from server")
+//
+//        AtomicFileHandler.saveData(api: "https://raw.githubusercontent.com/nmalesa/cat-emojis/gh-pages/index.md", filePath: "Cats") { (retVal, error) in
+//            XCTAssertEqual("😸😹😺😻", retVal)
+//            exp.fulfill()
+//        }
+//
+//        waitForExpectations(timeout: 10.0) { (error) in
+//            XCTFail("timeout")
+//        }
+//    }
+
     
-    func testRetrieveJSONTodos() throws {
-        struct Response: Codable {
-            let title: String
-        }
-        
-        let session: URLSession = URLSession(configuration: .default)
-        
-        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
-        
-        session.dataTask(with: url!) {data, response, error in
-            do {
-                let res = try JSONDecoder().decode([Response].self, from: data!)
-                XCTAssertEqual("delectus aut autem", res[0].title)
-                // exp.fulfill()
-            } catch let error {
-                print(error)
-            }
-        }.resume()
-    }
     
-    func testWriteTodosFile() throws {
-        struct Response: Codable {
-            let title: String
-        }
-        
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
-        let session: URLSession = URLSession(configuration: .default)
-        
-        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
-        
-        session.dataTask(with: url!) {data, response, error in
-            do {
-                let res = try JSONDecoder().decode([Response].self, from: data!)
-                
-                let todosURL = URL(fileURLWithPath: "Todos", relativeTo: documentDirectoryURL).appendingPathExtension("txt")
-                
-                let todo = res[0].title
-                
-                let testTodo = "delectus aut autem"
-                
-                try todo.write(to: todosURL, atomically: true, encoding: .utf8)
-                
-                let todoTestString = try String(contentsOf: todosURL)
-                
-                XCTAssertEqual(testTodo, todoTestString)
-            } catch let error {
-                print(error)
-            }
-        }.resume()
-    }
+//    func testRetrieveJSONTodos() throws {
+//        struct Response: Codable {
+//            let title: String
+//        }
+//
+//        let session: URLSession = URLSession(configuration: .default)
+//
+//        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
+//
+//        session.dataTask(with: url!) {data, response, error in
+//            do {
+//                let res = try JSONDecoder().decode([Response].self, from: data!)
+//                XCTAssertEqual("delectus aut autem", res[0].title)
+//                // exp.fulfill()
+//            } catch let error {
+//                print(error)
+//            }
+//        }.resume()
+//    }
+    
+
 }
-
-
