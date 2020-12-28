@@ -26,6 +26,30 @@ class AtomicFileOps: NSObject {
     
     // VERSION 2:  Fetch and write functionality
     @objc(multiply:withB:withResolver:withRejecter:)
+    func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+        AtomicFileHandler.multiplyAsync(a: a, b: b) { (retVal) in
+            resolve(retVal)
+        }
+    }
+
+    @objc(writeFile:withData:withOptions:withResolver:withRejecter:)
+    func writeFile(filePath: String, data: String, options: String, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
+        //FIXME: Fix the forced unwrap on data here
+        //FIXME: Pass Options through and make use of them
+        AtomicFileHandler.saveData(fileURL: URL(fileURLWithPath: filePath), data: data.data(using: .utf8)!) { (returnString, error) in
+            guard error == nil else {
+                reject("Error", error?.localizedDescription, error)
+                return
+            }
+            resolve(returnString);
+        }
+    }
+    
+    @objc public static func requiresMainQueueSetup() -> Bool {
+        return false
+    }
+
+    
     func handleData(api: String, fileName: String, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
