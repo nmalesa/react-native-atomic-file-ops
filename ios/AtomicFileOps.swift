@@ -9,9 +9,12 @@ class AtomicFileOps: NSObject {
 //
 //    let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 //
+    // Get rid of appendingPathExtension
 //    let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
 //
-//        guard let data = fileContent.data(using: .utf8) else {
+//
+  // Pass .utf8 in as parameter
+// guard let data = fileContent.data(using: .utf8) else {
 //            reject(nil, error)
 //            return
 //        }
@@ -23,7 +26,7 @@ class AtomicFileOps: NSObject {
     
     // VERSION 2:  Fetch and write functionality
     @objc(multiply:withB:withResolver:withRejecter:)
-    func handleData(api: String, fileName: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) -> Void {
+    func handleData(api: String, fileName: String, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
         let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
@@ -31,22 +34,31 @@ class AtomicFileOps: NSObject {
         let session: URLSession = URLSession(configuration: .default)
         
         guard let url = URL(string: api) else {
-            reject(nil, URLError(.badURL))
+            reject("Bad URL", "Bad URL", URLError(.badURL))
             return
         }
         
         session.dataTask(with: url) {data, response, error in
             if error != nil {
-                reject(nil, error)
+                reject("Error", "Error", error)
                 return
             }
             
             guard let data = data else {
-                reject(nil, URLError(.badServerResponse))
+                reject("Bad server", "Bad server", URLError(.badServerResponse))
                 return
             }
             
-            AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal) in
+            AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal, error) in
+                if error != nil {
+                    reject("Error", "Error", error)
+                    return
+                }
+                
+                guard let retVal = retVal else {
+                    reject("Bad URL", "Bad URL", URLError(.badServerResponse))
+                    return
+                }
                 resolve(retVal)
             }
         }
