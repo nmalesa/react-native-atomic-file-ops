@@ -6,8 +6,8 @@ class AtomicFileHandler {
       completionHandler(a * b)
   }
   
-  public static func writeFile(filePath: String, contents: String, characterSet: String.Encoding, completionHandler: (String?, Error?) -> Void) -> Void {
-    let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL)
+  public static func writeFile(filePath: String, contents: String, characterSet: String.Encoding, pathExtension: String, completionHandler: (String?, Error?) -> Void) -> Void {
+    let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension(pathExtension)
     
     do {
       try contents.write(to: fileURL, atomically: true, encoding: characterSet)
