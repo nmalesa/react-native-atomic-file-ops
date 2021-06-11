@@ -11,11 +11,32 @@ class AtomicFileOperationsTests: XCTestCase {
         }
     }
   
-  let data = Data([240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187])
-  
-  func testWriteFile() throws {
-    AtomicFileHandler.writeFile(filePath: "Cats.txt", contents: data, characterSet: .utf8) { (retVal, error) in
+  func testWriteTextFile() throws {
+//    let data = Data([240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187])
+    
+    AtomicFileHandler.writeFile(filePath: "Cats.txt", contents: "😸😹😺😻", characterSet: .utf8) { (retVal, error) in
       XCTAssertEqual("😸😹😺😻", retVal)
     }
   }
-}
+  
+//  func testWriteJSON() throws {
+//    let jsonData = Data([{"key";: "value"}]);
+//
+//  }
+//
+//  func testOverwriteJSON() throws {
+//
+//  }
+//
+//  func testBadCharacterSet() throws {
+//
+//  }
+//
+//  func testBadFilePath() throws {
+//
+  }
+  
+//  func testGetNameForCodeCoverage() throws {
+//
+//  }
+
