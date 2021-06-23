@@ -57,8 +57,12 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
     private void writeFile(String filePath, String contents, Charset characterSet, Promise promise) {
         try {
           byte[] data = contents.getBytes(characterSet);
+          String fullFilePath = filePath;
+          if (!filePath.contains("/")) {
+            fullFilePath = reactContext.getApplicationContext().getCacheDir().getCanonicalPath() + filePath;
+          }
 
-            File file = new File(filePath);
+            File file = new File(fullFilePath);
             AtomicFile af = new AtomicFile(file);
             FileOutputStream fos = af.startWrite();
             fos.write(data);
