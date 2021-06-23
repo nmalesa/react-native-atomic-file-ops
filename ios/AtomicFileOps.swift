@@ -9,7 +9,7 @@ class AtomicFileOps: NSObject {
 //
 //    let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 //
-//     // Get rid of appendingPathExtension
+    // Get rid of appendingPathExtension
 //    let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
 //
 //
@@ -26,9 +26,6 @@ class AtomicFileOps: NSObject {
     
     // VERSION 2:  Fetch and write functionality
     @objc(multiply:withB:withResolver:withRejecter:)
-<<<<<<< HEAD
-    func handleData(api: String, fileName: String, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> String {
-=======
     func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
         AtomicFileHandler.multiplyAsync(a: a, b: b) { (retVal) in
             resolve(retVal)
@@ -54,7 +51,6 @@ class AtomicFileOps: NSObject {
 
     
     func handleData(api: String, fileName: String, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
->>>>>>> e6ebb16a06b543881c702a12fa6a2da54ffb0a45
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
 
         let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
