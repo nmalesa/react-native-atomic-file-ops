@@ -12,6 +12,7 @@ class AtomicFileHandler {
     do {
       try contents.write(to: fileURL, atomically: true, encoding: characterSet)
       
+      // Reading the file back in.  Should this be included here in writeFile or extracted and used in testing only?
       let atomicOutput = try String(contentsOf: fileURL)
       
       completionHandler(atomicOutput, nil)
