@@ -72,22 +72,24 @@ class AtomicFileOperationsTests: XCTestCase {
     }
   }
   
-  // FINISH THIS TEST AFTER WRITING THE PUBLIC / PRIVATE CHARACTER SET WRITEFILE FUNCTIONS (TO HANDLE STRING FOR JAVASCRIPT)
+  // FINISH THIS TEST AFTER HANDLING CHARACTER SET STRING CONVERSION
 //  func testBadCharacterSet() throws {
 //    let jsonString: String = "[{\"key\": \"value\"}]"
 //    let time = Date().timeIntervalSince1970
 //    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
 //    let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
   
-  // let fileExists: Bool = FileManager.default.fileExists(atPath: filePath)
+  // Make sure file does not already exist
+//  let fileExists: Bool = FileManager.default.fileExists(atPath: filePath) // Need absolute path?
 //
-//    // Add code to make sure the file doesn't already exist
+//  if fileExists {
+//    try FileManager.default.removeItem(atPath: filePath)
+//    XCTAssertEqual(false, fileExists)
+//  }
 //
 //    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: "No Such Character Set", pathExtension: ".json") { (retVal, error) in
-//      XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
+//      XCTAssertEqual(false, fileExists) // DON'T KNOW THAT THIS IS HANDLED CORRECTLY
 //    }
-//
-
 //  }
   
   func testBadFilePath() throws {
