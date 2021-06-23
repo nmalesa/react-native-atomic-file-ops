@@ -18,30 +18,68 @@ class AtomicFileOperationsTests: XCTestCase {
   }
   
   func testWriteJSON() throws {
-    let jsonData: String = "[{\"key\": \"value\"}]"
+    let jsonString: String = "[{\"key\": \"value\"}]"
     let time = Date().timeIntervalSince1970
     let timeString = String(time).replacingOccurrences(of: ".", with: "_")
     let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
-    
-    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonData, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+
+    // Add code to make sure the file doesn't already exist
+
+    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
       XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
     }
 
+      // Add code to clean up and delete file
   }
-//
-//  func testOverwriteJSON() throws {
-//
-//  }
-//
-//  func testBadCharacterSet() throws {
-//
-//  }
-//
-//  func testBadFilePath() throws {
-//
+    
+  func testOverwriteJSON() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let time = Date().timeIntervalSince1970
+    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+    let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
+      
+    // Add code to make sure the file doesn't already exist
+      
+    // Write out the full file, and read the file back in
+    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
+    }
+      
+    // Overwrite the file with a shorter string, and read the file back in.
+    AtomicFileHandler.writeFile(filePath: filePath, contents: "[]", characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual("[]", retVal)
+    }
+  
+    // Add code to clean up and delete file
+    
   }
   
-//  func testGetNameForCodeCoverage() throws {
+  // FINISH THIS TEST AFTER WRITING THE PUBLIC / PRIVATE CHARACTER SET WRITEFILE FUNCTIONS (TO HANDLE STRING FOR JAVASCRIPT)
+//  func testBadCharacterSet() throws {
+//    let jsonString: String = "[{\"key\": \"value\"}]"
+//    let time = Date().timeIntervalSince1970
+//    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+//    let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
+  
+  // let fileExists: Bool = FileManager.default.fileExists(atPath: filePath)
 //
-//  }
+//    // Add code to make sure the file doesn't already exist
+//
+//    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: "No Such Character Set", pathExtension: ".json") { (retVal, error) in
+//      XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
+//    }
+//
 
+//  }
+  
+  func testBadFilePath() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let filePath: String = "../../../No Such File/AtomicFileOpsModuleTest.test";
+    
+    let fileExists: Bool = FileManager.default.fileExists(atPath: filePath)
+    
+    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual("[]", retVal)
+    }
+  }
+}
