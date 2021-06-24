@@ -1,10 +1,3 @@
-//
-//  AtomicFileOperations.h
-//  AtomicFileOperations
-//
-//  Created by Carl Brown on 11/9/20.
-//
-
 #import <Foundation/Foundation.h>
 
 //! Project version number for AtomicFileOperations.

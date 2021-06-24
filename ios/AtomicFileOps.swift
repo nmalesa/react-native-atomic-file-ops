@@ -13,7 +13,7 @@ class AtomicFileOps: NSObject {
 //    let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
 //
 //
-  // Pass .utf8 in as parameter
+//   // Pass .utf8 in as parameter
 // guard let data = fileContent.data(using: .utf8) else {
 //            reject(nil, error)
 //            return
@@ -52,33 +52,33 @@ class AtomicFileOps: NSObject {
     
     func handleData(api: String, fileName: String, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
         let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        
+
         let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
-        
+
         let session: URLSession = URLSession(configuration: .default)
-        
+
         guard let url = URL(string: api) else {
             reject("Bad URL", "Bad URL", URLError(.badURL))
-            return
+            return "Error"
         }
-        
+
         session.dataTask(with: url) {data, response, error in
             if error != nil {
                 reject("Error", "Error", error)
                 return
             }
-            
+
             guard let data = data else {
                 reject("Bad server", "Bad server", URLError(.badServerResponse))
                 return
             }
-            
+
             AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal, error) in
                 if error != nil {
                     reject("Error", "Error", error)
                     return
                 }
-                
+
                 guard let retVal = retVal else {
                     reject("Bad URL", "Bad URL", URLError(.badServerResponse))
                     return
@@ -86,5 +86,7 @@ class AtomicFileOps: NSObject {
                 resolve(retVal)
             }
         }
+        
+        return "This is a test"
     }
 }

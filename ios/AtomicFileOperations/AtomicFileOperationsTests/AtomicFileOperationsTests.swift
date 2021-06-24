@@ -1,84 +1,105 @@
-//
-//  AtomicFileOperationsTests.swift
-//  AtomicFileOperationsTests
-//
-//  Created by Carl Brown on 11/9/20.
-//
-
 import XCTest
 @testable import AtomicFileOperations
 
 class AtomicFileOperationsTests: XCTestCase {
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
-            XCTAssertEqual(55.0, retVal)
-        }
+  func testExample() throws {
+      // This is an example of a functional test case.
+      // Use XCTAssert and related functions to verify your tests produce the correct results.
+      AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
+          XCTAssertEqual(55.0, retVal)
+      }
+  }
+  
+  func testWriteTextFile() throws {
+    AtomicFileHandler.writeFile(filePath: "Cats", contents: "😸😹😺😻", characterSet: .utf8, pathExtension: ".txt") { (retVal, error) in
+      XCTAssertEqual("😸😹😺😻", retVal)
     }
-    
-    let fileURL = URL(fileURLWithPath: "Cats.txt", relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0])
+  }
+  
+  func testWriteJSON() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let time = Date().timeIntervalSince1970
+    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+    let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
 
-    let data = Data([240, 159, 152, 184, 240, 159, 152, 185, 0b1111_0000, 0b1001_1111, 0b1001_1000, 186, 0xF0, 0x9F, 0x98, 187])
+    // Make sure file does not already exist
+    let fileExists: Bool = FileManager.default.fileExists(atPath: filePath) // Need absolute path?
     
-    func testSaveData() throws {
-        AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal, error) in
-            XCTAssertEqual("😸😹😺😻", retVal)
-        }
+    if fileExists {
+      try FileManager.default.removeItem(atPath: filePath)
+      XCTAssertEqual(false, fileExists)
     }
-//    func testFetchTodos() throws {
-//        let exp = expectation(description: "fetching todos from server")
-//
-//        let session: URLSession = URLSession(configuration: .default)
-//
-//        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
-//
-//        session.dataTask(with: url!) {data, response, error in
-//            XCTAssertNil(error)
-//            exp.fulfill()
-//        }.resume()
-//
-//        waitForExpectations(timeout: 10.0) { (error) in
-//            print(error?.localizedDescription ?? "Error")
-//        }
-//    }
-    
-// WORKING TEST 4 - REMODEL AFTER TESTFETCHTODOS
-//    func testSaveData() throws {
-//        let exp = expectation(description: "Fetches data from server")
-//
-//        AtomicFileHandler.saveData(api: "https://raw.githubusercontent.com/nmalesa/cat-emojis/gh-pages/index.md", filePath: "Cats") { (retVal, error) in
-//            XCTAssertEqual("😸😹😺😻", retVal)
-//            exp.fulfill()
-//        }
-//
-//        waitForExpectations(timeout: 10.0) { (error) in
-//            XCTFail("timeout")
-//        }
-//    }
 
-    
-    
-//    func testRetrieveJSONTodos() throws {
-//        struct Response: Codable {
-//            let title: String
-//        }
-//
-//        let session: URLSession = URLSession(configuration: .default)
-//
-//        let url = URL(string: "https://jsonplaceholder.typicode.com/todos")
-//
-//        session.dataTask(with: url!) {data, response, error in
-//            do {
-//                let res = try JSONDecoder().decode([Response].self, from: data!)
-//                XCTAssertEqual("delectus aut autem", res[0].title)
-//                // exp.fulfill()
-//            } catch let error {
-//                print(error)
-//            }
-//        }.resume()
-//    }
-    
+    // Write out the full file, and read the file back in 
+    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
+    }
 
+    // Clean up
+    if fileExists {
+      try FileManager.default.removeItem(atPath: filePath)
+    }
+  }
+    
+  func testOverwriteJSON() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let time = Date().timeIntervalSince1970
+    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+    let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
+      
+    // Make sure file does not already exist
+    let fileExists: Bool = FileManager.default.fileExists(atPath: filePath) // Need absolute path?
+    
+    if fileExists {
+      try FileManager.default.removeItem(atPath: filePath)
+      XCTAssertEqual(false, fileExists)
+    }
+      
+    // Write out the full file, and read the file back in
+    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
+    }
+      
+    // Overwrite the file with a shorter string, and read the file back in.
+    AtomicFileHandler.writeFile(filePath: filePath, contents: "[]", characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual("[]", retVal)
+    }
+  
+    // Clean up
+    if fileExists {
+      try FileManager.default.removeItem(atPath: filePath)
+    }
+  }
+  
+  // FINISH THIS TEST AFTER HANDLING CHARACTER SET STRING CONVERSION
+//  func testBadCharacterSet() throws {
+//    let jsonString: String = "[{\"key\": \"value\"}]"
+//    let time = Date().timeIntervalSince1970
+//    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+//    let filePath: String = "AtomicFileOpsModuleTest.test." + timeString
+  
+  // Make sure file does not already exist
+//  let fileExists: Bool = FileManager.default.fileExists(atPath: filePath) // Need absolute path?
+//
+//  if fileExists {
+//    try FileManager.default.removeItem(atPath: filePath)
+//    XCTAssertEqual(false, fileExists)
+//  }
+//
+//    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: "No Such Character Set", pathExtension: ".json") { (retVal, error) in
+//      XCTAssertEqual(false, fileExists) // DON'T KNOW THAT THIS IS HANDLED CORRECTLY
+//    }
+//  }
+  
+  func testBadFilePath() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let filePath: String = "../../../No Such File/AtomicFileOpsModuleTest.test";
+    
+    let fileExists: Bool = FileManager.default.fileExists(atPath: filePath)
+    
+    AtomicFileHandler.writeFile(filePath: filePath, contents: jsonString, characterSet: .utf8, pathExtension: ".json") { (retVal, error) in
+      XCTAssertEqual(false, fileExists)  // DON'T KNOW THAT THIS IS HANDLED CORRECTLY
+    }
+  }
 }
