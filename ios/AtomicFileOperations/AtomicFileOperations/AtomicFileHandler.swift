@@ -6,8 +6,12 @@ class AtomicFileHandler {
       completionHandler(a * b)
   }
   
-  public static func writeFile(filePath: String, contents: String, characterSet: String.Encoding, pathExtension: String, completionHandler: (String?, Error?) -> Void) -> Void {
-    let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension(pathExtension)
+  //TODO: REMOVE PATHEXTENSION
+  // GO UP TO EXAMPLE APP IN JAVASCRIPT AND GET CAVY TEST RUNNING ALL THE WAY THROUGH 
+  public static func writeFile(fileName: String, contents: String, characterSet: String.Encoding, pathExtension: String, directory: String? = nil,
+                  completionHandler: (String?, Error?) -> Void) -> Void {
+    let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
+    let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath).appendingPathExtension(pathExtension)
     
     // Need to convert characterSetName string into String.Encoding (for JavaScript)
     // let charSet = characterSetName.cString(using: String.Encoding)

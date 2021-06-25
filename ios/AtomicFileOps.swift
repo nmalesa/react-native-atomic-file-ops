@@ -33,10 +33,14 @@ class AtomicFileOps: NSObject {
     }
 
     @objc(writeFile:withData:withOptions:withResolver:withRejecter:)
+  // options = The string "UTF8"
     func writeFile(filePath: String, data: String, options: String, resolve:@escaping RCTPromiseResolveBlock,reject:@escaping RCTPromiseRejectBlock) -> Void {
-        //FIXME: Fix the forced unwrap on data here
-        //FIXME: Pass Options through and make use of them
-        AtomicFileHandler.saveData(fileURL: URL(fileURLWithPath: filePath), data: data.data(using: .utf8)!) { (returnString, error) in
+      var stringEncoding: String.Encoding = .ascii
+      if options = "UTF8" {
+        stringEncoding = .utf8
+        //TODO: Check for other values
+      }
+        AtomicFileHandler.writeFile(fileName: filePath, contents: data, characterSet: stringEncoding, pathExtension: <#T##String#>) { (returnString, error) in
             guard error == nil else {
                 reject("Error", error?.localizedDescription, error)
                 return
@@ -47,46 +51,5 @@ class AtomicFileOps: NSObject {
     
     @objc public static func requiresMainQueueSetup() -> Bool {
         return false
-    }
-
-    
-    func handleData(api: String, fileName: String, resolve:@escaping RCTPromiseResolveBlock, reject:@escaping RCTPromiseRejectBlock) -> Void {
-        let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-
-        let fileURL = URL(fileURLWithPath: fileName, relativeTo: documentDirectoryURL).appendingPathExtension("txt")
-
-        let session: URLSession = URLSession(configuration: .default)
-
-        guard let url = URL(string: api) else {
-            reject("Bad URL", "Bad URL", URLError(.badURL))
-            return "Error"
-        }
-
-        session.dataTask(with: url) {data, response, error in
-            if error != nil {
-                reject("Error", "Error", error)
-                return
-            }
-
-            guard let data = data else {
-                reject("Bad server", "Bad server", URLError(.badServerResponse))
-                return
-            }
-
-            AtomicFileHandler.saveData(fileURL: fileURL, data: data) { (retVal, error) in
-                if error != nil {
-                    reject("Error", "Error", error)
-                    return
-                }
-
-                guard let retVal = retVal else {
-                    reject("Bad URL", "Bad URL", URLError(.badServerResponse))
-                    return
-                }
-                resolve(retVal)
-            }
-        }
-        
-        return "This is a test"
     }
 }
