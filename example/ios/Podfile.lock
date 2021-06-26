@@ -429,7 +429,7 @@ SPEC CHECKSUMS:
   React-jsi: b6dc94a6a12ff98e8877287a0b7620d365201161
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
-  react-native-atomic-file-ops: 0816fa16aa0016db2f7bd0342dc6b20e7e0b61dd
+  react-native-atomic-file-ops: 796aa2962498f452eece3152f735f23b751d2259
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71
@@ -445,4 +445,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 3663b34386dfb922e94b0f160cc7d961bddf6cf5
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
