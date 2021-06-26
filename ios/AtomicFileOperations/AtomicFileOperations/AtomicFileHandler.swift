@@ -6,7 +6,6 @@ class AtomicFileHandler {
       completionHandler(a * b)
   }
   
-  // GO UP TO EXAMPLE APP IN JAVASCRIPT AND GET CAVY TEST RUNNING ALL THE WAY THROUGH 
   public static func writeFile(fileName: String, contents: String, characterSet: String.Encoding, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
