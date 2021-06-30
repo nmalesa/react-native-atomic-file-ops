@@ -25,7 +25,6 @@ export const readFile = async (path, encoding) => {
     }
 
     const data = await RNFS.readFile(path, encoding)
-    // console.log('Data: ', data)
     return data
   } catch (error) {
     console.error('readFile: ', error)

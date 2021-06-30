@@ -6,6 +6,14 @@ import {
   View,
 } from 'react-native';
 
+
+//TODO:  
+// Remove fetch functionality (testing atomic-file-ops only)
+// Refactor Media Manager
+// Refactor to use without Lodash
+// Fix specs as needed
+// Stretch goal:  Refactor to TypeScript
+
 const App = () => {
   // "Sasu the Guinea Pig" by andymiccone is marked under CC0 1.0. To view the terms, visit https://creativecommons.org/licenses/cc0/1.0/
   const REMOTE_FILE_PATH =

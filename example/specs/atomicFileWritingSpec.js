@@ -48,38 +48,66 @@ const IMAGE_2 = [
 ]
 
 export default function (spec) {
-  spec.describe('tests file system', function () {
-    spec.it('fetches', async function () {
-      const filePath = await getPathOfFetchedHTTPFile(REMOTE_FILE_PATH);
+  spec.describe('tests react-native-atomic-file-ops', function () {
+    spec.it('writes to a text file', async function () {
+      const fileName = 'Cats.txt'
+      const directory = await RNFS.DocumentDirectoryPath
 
-      if (await RNFS.exists(filePath)) {
-        await deleteFetchedHTTPFile(REMOTE_FILE_PATH);
+      if (!directory) {
+        await RNFS.mkdir(directory);
       }
 
-      const fileExists = await RNFS.exists(filePath);
-  
-      if (fileExists) {
-        throw new Error('File cannot exist before we fetch it.');
+      const filePath = `${directory}/${fileName}`;
+
+      await AtomicFileOps.writeFile(fileName, "😸😹😺😻", 'UTF8')
+
+      const content = await readFile(filePath, 'utf8') 
+
+      if (content !== "😸😹😺😻") {
+        throw 'Text File Error:  Content does not match input.'
+      } else {
+        console.log('Text File Content: ', content)
       }
-
-      await fetchHTTPFile(REMOTE_FILE_PATH);
-
-      await spec.pause(2000); // Needs to be long enough that the fetch completes
-
-      const fileExistsNow = await RNFS.exists(filePath);
-
-      console.log('File Exists Now: ', fileExistsNow)
-      // NOTE:  In article, make a note about how the debugger is helpful to pause and see what's being logged
-      if (!fileExistsNow) {
-        throw new Error('File does not exist after we fetched it.');
-      }
-    });
-
-    spec.it('overwrites metadata file', async function () {
-      await AtomicFileOps.writeFile("cavy_test_image.json", JSON.stringify(IMAGE_2), 'utf8');
-
-      await AtomicFileOps.writeFile("cavy_test_image.json", JSON.stringify(IMAGE_1), 'utf8');
     })
+
+
+
+
+
+
+
+
+    // spec.it('fetches', async function () {
+    //   const filePath = await getPathOfFetchedHTTPFile(REMOTE_FILE_PATH);
+
+    //   if (await RNFS.exists(filePath)) {
+    //     await deleteFetchedHTTPFile(REMOTE_FILE_PATH);
+    //   }
+
+    //   const fileExists = await RNFS.exists(filePath);
+  
+    //   if (fileExists) {
+    //     throw new Error('File cannot exist before we fetch it.');
+    //   }
+
+    //   await fetchHTTPFile(REMOTE_FILE_PATH);
+
+    //   await spec.pause(2000); // Needs to be long enough that the fetch completes
+
+    //   const fileExistsNow = await RNFS.exists(filePath);
+
+    //   console.log('File Exists Now: ', fileExistsNow)
+    //   // NOTE:  In article, make a note about how the debugger is helpful to pause and see what's being logged
+    //   if (!fileExistsNow) {
+    //     throw new Error('File does not exist after we fetched it.');
+    //   }
+    // });
+
+    // spec.it('overwrites metadata file', async function () {
+    //   await AtomicFileOps.writeFile("cavy_test_image.json", JSON.stringify(IMAGE_2), 'utf8');
+
+    //   await AtomicFileOps.writeFile("cavy_test_image.json", JSON.stringify(IMAGE_1), 'utf8');
+    // })
     
     // spec.it('fixes corrupted image metadata file', async function () {
     //   try {
