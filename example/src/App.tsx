@@ -8,10 +8,8 @@ import {
 
 
 //TODO:  
-// Remove fetch functionality (testing atomic-file-ops only)
 // Refactor Media Manager
 // Refactor to use without Lodash
-// Fix specs as needed
 // Stretch goal:  Refactor to TypeScript
 
 const App = () => {
@@ -21,7 +19,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Testing {'\n'}react-native-atomic-file-ops{'\n'} with Cavy</Text>
+      <Text style={styles.header}>Automated Testing with Cavy: {'\n'}react-native-atomic-file-ops</Text>
       <Image
         style={styles.image}
         source={{uri: REMOTE_FILE_PATH}}
