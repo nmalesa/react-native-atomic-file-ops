@@ -16,12 +16,12 @@ class AtomicFileHandler {
     switch characterSet {
       case "UTF8":
         stringEncoding = .utf8
-      case "UTF16":
-        stringEncoding = .utf16
-      case "UTF32":
-        stringEncoding = .utf32
+      case "ASCII":
+        stringEncoding = .ascii
+      case "BASE64":
+        stringEncoding = .base64
       default:
-        print("Error: Character encoding must be Unicode. UTF-8 is preferred.")
+        print("Error: Invalid character set.")
     }
     
     do {

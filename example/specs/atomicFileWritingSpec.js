@@ -88,6 +88,40 @@ export default function (spec) {
         throw 'List should be empty.'
       }
     })
+
+    spec.it('handles Base64', async function () {
+      const filePath = await getPathOfFetchedHTTPFile(REMOTE_FILE_PATH);
+
+      if (await RNFS.exists(filePath)) {
+        await deleteFetchedHTTPFile(REMOTE_FILE_PATH);
+      }
+
+      const fileExists = await RNFS.exists(filePath);
+  
+      if (fileExists) {
+        throw new Error('File cannot exist before we fetch it.');
+      }
+
+      await fetchHTTPFile(REMOTE_FILE_PATH);
+
+      await spec.pause(2000); // Needs to be long enough that the fetch completes
+
+      const fileExistsNow = await RNFS.exists(filePath);
+
+      console.log('File Exists Now: ', fileExistsNow)
+      // NOTE:  In article, make a note about how the debugger is helpful to pause and see what's being logged
+      if (!fileExistsNow) {
+        throw new Error('File does not exist after we fetched it.');
+      }
+
+      const content = await readFile(filePath, 'base64')
+
+      let jsonString = `[{\"uri\": \"${content}\"}]`
+      // console.log('JSON: ', jsonString)
+
+      await AtomicFileOps.writeFile('Base64Test.json', jsonString, 'base64')
+    });
+
   })
 }
 
