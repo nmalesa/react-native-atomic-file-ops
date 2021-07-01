@@ -17,10 +17,17 @@ export default function (spec) {
       }
 
       const filePath = `${directory}/${fileName}`;
+      console.log('FilePath: ', filePath)
+      debugger
 
       await AtomicFileOps.writeFile(fileName, "😸😹😺😻", 'UTF8')
 
       const content = await readFile(filePath, 'utf8') 
+
+      await spec.pause(2000)
+
+      console.log('Content: ', content)
+      debugger
 
       if (content !== "😸😹😺😻") {
         throw 'Text File Error:  Content does not match input.'
