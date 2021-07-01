@@ -1,6 +1,6 @@
 import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
-import _ from 'lodash';
+import _ from 'lodash'
 
 export const readFile = async (path, encoding) => {
   try {
@@ -38,14 +38,13 @@ export const getPathOfFetchedHTTPFile = async url => {
 
   try {
     const fileName = url.split('/').pop();
-    const directory = _.get(RNFS, 'DocumentDirectoryPath', null);
+    const directory = RNFS.DocumentDirectoryPath
 
     if (!directory) {
       await RNFS.mkdir(directory);
     }
 
     const filePath = `${directory}/${fileName}`;
-    // console.log('getPathOfFetchedHTTPFile File Path: ', filePath);
     return filePath;
   } catch (error) {
     console.error(error);
@@ -72,8 +71,8 @@ export const getImageFileList = async () => {
 };
 
 export const readImageDir = async () => {
-  let directory = _.get(RNFS, 'DocumentDirectoryPath', null);
-  let imageDir = `${directory}/image`
+  const directory = _.get(RNFS, 'DocumentDirectoryPath', null);
+  const imageDir = `${directory}/image`
 
   let imageDirExists = null
 
@@ -115,7 +114,7 @@ export const parseMetaFile = async metaPath => {
     check the meta file integrity by looking that all the files in this dir
     are present, if not remove them from meta.
   */
-  let errors = 0
+  const errors = 0
   const checkedMeta = []
   for (let i = 0; i < meta.length; i++) {
     const row = meta[i]

@@ -1,21 +1,5 @@
-// import { hasValue } from './fileWritingTestHelper';
-
-// export default function (spec) {
-//   spec.describe('Atomic File Writing', function () {
-//     spec.it('works', async function () {
-//       await spec.exists('AtomicFileWriterWrapper');
-//       await spec.fillIn('AtomicFileWriterWrapper', 'This is a Text String');
-//       const element = await spec.findComponent('AtomicFileWriterWrapper');
-
-//       await hasValue(element,'This is a Text String');
-//     });
-//   });
-
-// }
-
 import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
-import _ from 'lodash';
 import {
   readFile,
   getImageFileList,
@@ -26,7 +10,7 @@ export default function (spec) {
   spec.describe('tests react-native-atomic-file-ops', function () {
     spec.it('writes to a text file', async function () {
       const fileName = 'Cats.txt'
-      const directory = await RNFS.DocumentDirectoryPath
+      const directory = RNFS.DocumentDirectoryPath
 
       if (!directory) {
         await RNFS.mkdir(directory);
@@ -46,8 +30,8 @@ export default function (spec) {
     })
 
     spec.it('overwrites JSON', async function () {
-      const fileName = 'Cavy_Image_Test.json'
-      const directory = await RNFS.DocumentDirectoryPath
+      const fileName = 'CavyImageTest.json'
+      const directory = RNFS.DocumentDirectoryPath
       const filePath = `${directory}/${fileName}`;
 
       // Make sure file does not already exist
@@ -78,6 +62,7 @@ export default function (spec) {
     spec.it('fixes corrupted image metadata file', async function () {
       try {
         const emptyList = await getImageFileList()
+   
         if (emptyList.length != 0) {
           throw 'List should be empty.'
         }
@@ -86,11 +71,16 @@ export default function (spec) {
       }
 
       // Now corrupt the metadata file by writing garbage in it
-      let directory = _.get(RNFS, 'DocumentDirectoryPath', null);
-      let imageDirPath = `${directory}/image`
-      const imageMetaPath = `${imageDirPath}/meta.json`
+      const directory = RNFS.DocumentDirectoryPath
 
-      await AtomicFileOps.writeFile(imageMetaPath, 'rkP7P3bu;.><5_/V?', 'utf8')
+      if (!directory) {
+        await RNFS.mkdir(directory);
+      }
+
+      const imageDir = `${directory}/image`
+      const imageMetaPath = `${imageDir}/meta.json`
+
+      await AtomicFileOps.writeFile(imageMetaPath, 'rkP7P3bu;.><5I/V?', 'utf8')
 
       const shouldStillBeEmptyList = await getImageFileList()
 

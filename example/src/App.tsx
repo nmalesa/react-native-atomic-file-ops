@@ -6,12 +6,6 @@ import {
   View,
 } from 'react-native';
 
-
-//TODO:  
-// Refactor Media Manager
-// Refactor to use without Lodash
-// Stretch goal:  Refactor to TypeScript
-
 const App = () => {
   // "Sasu the Guinea Pig" by andymiccone is marked under CC0 1.0. To view the terms, visit https://creativecommons.org/licenses/cc0/1.0/
   const REMOTE_FILE_PATH =
@@ -19,7 +13,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Automated Testing with Cavy: {'\n'}react-native-atomic-file-ops</Text>
+      <Text style={styles.header}>Automated Testing with Cavy{'\n'}react-native-atomic-file-ops</Text>
       <Image
         style={styles.image}
         source={{uri: REMOTE_FILE_PATH}}
