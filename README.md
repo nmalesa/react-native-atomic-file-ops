@@ -24,11 +24,6 @@ While this library was initially built to fix a bug occurring on a specific vers
 npm install react-native-atomic-file-ops
 ```
 
-For Android:
-```sh
-Anything needed to add to the Gradle file, etc.?
-```
-
 For iOS:
 ```sh
 cd ios
@@ -42,13 +37,30 @@ import AtomicFileOps from "react-native-atomic-file-ops";
 
 // ...
 
-const result = await AtomicFileOps.multiply(3, 7);
+// EXAMPLE:  Writes to a text file
+await AtomicFileOps.writeFile('Cats.txt', '😸😹😺😻', 'UTF8')
+
+// EXAMPLE:  Writes to a JSON file
+const fileName = 'CavyImageMetadat.json'
+
+const imageMetadata = [
+  {
+    alt: 'Guinea pig in green grass with dandelions',
+    creator: 'andymiccone',
+    url: 'https://live.staticflickr.com/7377/26722155994_5200abc340_b.jpg',
+    license: 'CC0 1.0'
+  }
+]
+
+const unicode = 'UTF8'
+
+await AtomicFileOps.writeFile(fileName, JSON.stringify(imageMetadata), unicode)
 ```
 
-# API
-```sh
-writeFile(filePath: String, data: String, options: String)
-```
+## API
+
+### ```writeFile(filePath: String, data: String, options: String)```
+Writes the `data` atomically to the `filePath`. `options` can be one of the following encoded character sets:  `utf8`, `ascii`, or `base64`.
 
 ## Example App
 

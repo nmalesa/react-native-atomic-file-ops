@@ -20,7 +20,7 @@ export default function (spec) {
       console.log('FilePath: ', filePath)
       debugger
 
-      await AtomicFileOps.writeFile(fileName, "😸😹😺😻", 'UTF8')
+      await AtomicFileOps.writeFile(fileName, '😸😹😺😻', 'UTF8')
 
       const content = await readFile(filePath, 'utf8') 
 
