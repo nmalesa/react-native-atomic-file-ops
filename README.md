@@ -41,10 +41,11 @@ import AtomicFileOps from "react-native-atomic-file-ops";
 await AtomicFileOps.writeFile('Cats.txt', '😸😹😺😻', 'UTF8')
 
 // EXAMPLE:  Writes to a JSON file
-const fileName = 'CavyImageMetadat.json'
+const fileName = 'CavyImageMetadata.json'
 
 const imageMetadata = [
   {
+    title: 'Sasu the Guinea Pig',
     alt: 'Guinea pig in green grass with dandelions',
     creator: 'andymiccone',
     url: 'https://live.staticflickr.com/7377/26722155994_5200abc340_b.jpg',
@@ -60,7 +61,7 @@ await AtomicFileOps.writeFile(fileName, JSON.stringify(imageMetadata), unicode)
 ## API
 
 ### ```writeFile(filePath: String, data: String, options: String)```
-Writes the `data` atomically to the `filePath`. `options` can be one of the following encoded character sets:  `utf8`, `ascii`, or `base64`.
+Writes the `data` atomically to the `filePath`. `options` allows for following encoded character sets:  `utf8`, `ascii`, or `base64`.
 
 ## Example App
 
@@ -78,7 +79,7 @@ Additionally, the library has been tested on React Native in an example app usin
 
 ## Contributing
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+`react-native-atomic-file-ops` is open-source.  If you find a bug or have an idea to improve this module, please open an issue.
 
 ## Credits
 
@@ -86,4 +87,4 @@ Carl Brown and Natalia Malesa
 
 ## License
 
-MIT
+MIT License (add link to LICENSE file)

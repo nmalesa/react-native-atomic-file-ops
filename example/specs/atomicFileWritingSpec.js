@@ -1,10 +1,6 @@
 import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
-import {
-  readFile,
-  getImageFileList,
-  deleteFile
-} from '../datastructs/mediaManager';
+import FileHandler from '../datastructs/FileHandler';
 
 export default function (spec) {
   spec.describe('tests react-native-atomic-file-ops', function () {
@@ -22,7 +18,7 @@ export default function (spec) {
 
       await AtomicFileOps.writeFile(fileName, '😸😹😺😻', 'UTF8')
 
-      const content = await readFile(filePath, 'utf8') 
+      const content = await RNFS.readFile(filePath, 'utf8') 
 
       await spec.pause(2000)
 
@@ -43,7 +39,7 @@ export default function (spec) {
 
       // Make sure file does not already exist
       if (await RNFS.exists(filePath)) {
-        await deleteFile(filePath);
+        await RNFS.unlink(filePath);
       }
 
       // Write out the file
@@ -52,7 +48,7 @@ export default function (spec) {
       // Overwrite the same file with shorter JSON data
       await AtomicFileOps.writeFile(fileName, "[{\"Cat\": \"Felis catus\"}]", 'UTF8')
 
-      const content = await readFile(filePath, 'utf8') 
+      const content = await RNFS.readFile(filePath, 'utf8') 
       
       if (content !== "[{\"Cat\": \"Felis catus\"}]") {
         throw 'Overwrites JSON Error:  Content does not match input.'
@@ -62,13 +58,13 @@ export default function (spec) {
 
       // Clean up
       if (await RNFS.exists(filePath)) {
-        await deleteFile(filePath);
+        await RNFS.unlink(filePath);
       }
     })
     
     spec.it('fixes corrupted image metadata file', async function () {
       try {
-        const emptyList = await getImageFileList()
+        const emptyList = await FileHandler.getImageFileList()
    
         if (emptyList.length != 0) {
           throw 'List should be empty.'
@@ -89,7 +85,7 @@ export default function (spec) {
 
       await AtomicFileOps.writeFile(imageMetaPath, 'rkP7P3bu;.><5I/V?', 'utf8')
 
-      const shouldStillBeEmptyList = await getImageFileList()
+      const shouldStillBeEmptyList = await FileHandler.getImageFileList()
 
       if (shouldStillBeEmptyList.length != 0) {
         throw 'List should be empty.'
