@@ -2,47 +2,21 @@ import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
 import FileHandler from '../datastructs/FileHandler';
 
+const fileName = 'CavyTest.json'
+const directory = RNFS.DocumentDirectoryPath
+const filePath = `${directory}/${fileName}`;
+
 export default function (spec) {
   spec.describe('tests react-native-atomic-file-ops', function () {
-    spec.it('writes to a text file', async function () {
-      const fileName = 'Cats.txt'
-      const directory = RNFS.DocumentDirectoryPath
-
-      if (!directory) {
-        await RNFS.mkdir(directory);
-      }
-
-      const filePath = `${directory}/${fileName}`;
-      console.log('FilePath: ', filePath)
-      debugger
-
-      await AtomicFileOps.writeFile(fileName, '😸😹😺😻', 'UTF8')
-
-      const content = await RNFS.readFile(filePath, 'utf8') 
-
-      await spec.pause(2000)
-
-      console.log('Content: ', content)
-      debugger
-
-      if (content !== "😸😹😺😻") {
-        throw 'Text File Error:  Content does not match input.'
-      } else {
-        console.log('Text File Content: ', content)
-      }
-    })
-
-    spec.it('overwrites JSON', async function () {
-      const fileName = 'CavyImageTest.json'
-      const directory = RNFS.DocumentDirectoryPath
-      const filePath = `${directory}/${fileName}`;
-
+    spec.beforeEach(async () => {
       // Make sure file does not already exist
       if (await RNFS.exists(filePath)) {
         await RNFS.unlink(filePath);
       }
+    })
 
-      // Write out the file
+    spec.it('overwrites JSON', async function () {
+      // Write the file
       await AtomicFileOps.writeFile(fileName, "[{\"Guinea pig\": \"Cavia porcellus\"}]", 'UTF8')
 
       // Overwrite the same file with shorter JSON data
@@ -54,11 +28,6 @@ export default function (spec) {
         throw 'Overwrites JSON Error:  Content does not match input.'
       } else {
         console.log('Overwrites JSON Content: ', content)
-      }
-
-      // Clean up
-      if (await RNFS.exists(filePath)) {
-        await RNFS.unlink(filePath);
       }
     })
     
