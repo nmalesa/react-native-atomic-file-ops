@@ -6,16 +6,27 @@ class AtomicFileHandler {
       completionHandler(a * b)
   }
   
-  public static func writeFile(filePath: String, contents: String, characterSet: String.Encoding, pathExtension: String, completionHandler: (String?, Error?) -> Void) -> Void {
-    let fileURL = URL(fileURLWithPath: filePath, relativeTo: FileManager.documentDirectoryURL).appendingPathExtension(pathExtension)
+  public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
+    let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
+    let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     
-    // Need to convert characterSetName string into String.Encoding (for JavaScript)
-    // let charSet = characterSetName.cString(using: String.Encoding)
+    // JavaScript doesn't have a CharacterSet type.  Need to convert String passed in from JavaScript to typesafe parameter.
+    var stringEncoding: String.Encoding = .ascii
+    
+    switch characterSet {
+      case "UTF8":
+        stringEncoding = .utf8
+      case "UTF16":
+        stringEncoding = .utf16
+      case "UTF32":
+        stringEncoding = .utf32
+      default:
+        print("Error: Character encoding must be Unicode. UTF-8 is preferred.")
+    }
     
     do {
-      try contents.write(to: fileURL, atomically: true, encoding: characterSet)
+      try contents.write(to: fileURL, atomically: true, encoding: stringEncoding)
       
-      // Reading the file back in.  Should this be included here in writeFile or used in testing only?
       let atomicOutput = try String(contentsOf: fileURL)
       
       completionHandler(atomicOutput, nil)
