@@ -34,7 +34,7 @@ export default function (spec) {
     spec.it('handles Base64', async function () {
       const filePath = await FileHandler.getPathOfFetchedHTTPFile(remoteFilePath);
 
-      console.log(filePath)
+      // console.log(filePath)
 
       if (await RNFS.exists(filePath)) {
         await FileHandler.deleteFetchedHTTPFile(remoteFilePath);
@@ -63,6 +63,11 @@ export default function (spec) {
       const content = await RNFS.readFile(filePath, 'base64')
 
       console.log('Content: ', content)
+
+      const imageFilePath = RNFS.DocumentDirectoryPath + '/Base64.jpg'
+
+      // TO DO;  Replace with AtomicFileOps
+      await RNFS.writeFile(imageFilePath, content, 'base64')
     });
 
   })
