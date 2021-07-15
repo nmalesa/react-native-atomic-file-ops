@@ -1,6 +1,9 @@
 import Foundation
 
 class AtomicFileHandler {
+  enum AtomicFileHandlerError : Error {
+    case badEncoding
+  }
   
   public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
       completionHandler(a * b)
@@ -11,21 +14,28 @@ class AtomicFileHandler {
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     
     // JavaScript doesn't have a CharacterSet type.  Need to convert String passed in from JavaScript to typesafe parameter.
-    var stringEncoding: String.Encoding = .ascii
+    
+    var encoded: Data?
     
     switch characterSet {
       case "UTF8":
-        stringEncoding = .utf8
+        encoded = contents.data(using: .utf8)
       case "ASCII":
-        stringEncoding = .ascii
+        encoded = contents.data(using: .ascii)
       case "BASE64":
-        stringEncoding = .base64
+        encoded = contents.data(using: .utf8)?.base64EncodedData()
       default:
-        print("Error: Invalid character set.")
+        completionHandler(nil, AtomicFileHandlerError.badEncoding)
+        return
+    }
+    
+    guard let encoded = encoded else {
+      completionHandler(nil, AtomicFileHandlerError.badEncoding)
+      return
     }
     
     do {
-      try contents.write(to: fileURL, atomically: true, encoding: stringEncoding)
+      try encoded.write(to: fileURL, options: .atomic)
       
       let atomicOutput = try String(contentsOf: fileURL)
       
