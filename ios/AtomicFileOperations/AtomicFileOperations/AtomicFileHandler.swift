@@ -1,6 +1,7 @@
 import Foundation
 
 class AtomicFileHandler {
+  //TODO: Expand error
   enum AtomicFileHandlerError : Error {
     case badEncoding
   }
@@ -13,16 +14,16 @@ class AtomicFileHandler {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     
-    // JavaScript doesn't have a CharacterSet type.  Need to convert String passed in from JavaScript to typesafe parameter.
+    let caseNeutralCharacterSet = characterSet.lowercased()
     
     var encoded: Data?
     
-    switch characterSet {
-      case "UTF8":
+    switch caseNeutralCharacterSet {
+      case "utf8":
         encoded = contents.data(using: .utf8)
-      case "ASCII":
+      case "ascii":
         encoded = contents.data(using: .ascii)
-      case "BASE64":
+      case "base64":
         encoded = contents.data(using: .utf8)?.base64EncodedData()
       default:
         completionHandler(nil, AtomicFileHandlerError.badEncoding)
