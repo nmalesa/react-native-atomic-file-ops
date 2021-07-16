@@ -18,7 +18,7 @@ export default function (spec) {
     })
 
     spec.it('tests base64 on Android', async function () {
-      await AtomicFileOps.writeFile(filePath, "Hello, world!", "UTF8")
+      await AtomicFileOps.writeFile(filePath, "Hello, world!", "BASE64")
     })
 
     // spec.it('overwrites JSON', async function () {

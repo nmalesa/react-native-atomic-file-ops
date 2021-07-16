@@ -46,8 +46,8 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
       Charset charset;
 
       String caseNeutralCharacterSet = characterSetName.toLowerCase();
-
-      System.out.println("LOWERCASE: " + caseNeutralCharacterSet);
+      
+      byte[] encoded;
 
       switch (caseNeutralCharacterSet) {
         case "utf8":
@@ -58,6 +58,7 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
           break;
         case "base64":
           System.out.println("SWITCH STATEMENT IS WORKING FOR BASE64");
+          System.out.println("BASE64: " + Base64.encodeToString(contents.getBytes(), Base64.DEFAULT));
           break;
         default:
           System.out.println("Invalid character set");
