@@ -15,7 +15,7 @@ const filePath = `${directory}/${fileName}`;
 
 const App = () => {
 
-  AtomicFileOps.writeFile(filePath, 'hello', 'BASE64')
+  AtomicFileOps.writeFile(filePath, 'hello', 'UTF8')
   .then(value => {
     console.log('Succeeded with: ', value)
   }, reason => {

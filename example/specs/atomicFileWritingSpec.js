@@ -17,6 +17,10 @@ export default function (spec) {
       }
     })
 
+    spec.it('tests base64 on Android', async function () {
+      await AtomicFileOps.writeFile(filePath, "Hello, world!", "UTF8")
+    })
+
     // spec.it('overwrites JSON', async function () {
     //   // Write the file
     //   await AtomicFileOps.writeFile(filePath, "[{\"Guinea pig\": \"Cavia porcellus\"}]", 'UTF8')
@@ -31,43 +35,46 @@ export default function (spec) {
     //   } 
     // })
 
-    spec.it('handles Base64', async function () {
-      const filePath = await FileHandler.getPathOfFetchedHTTPFile(remoteFilePath);
+    // spec.it('handles Base64', async function () {
+    //   const filePath = await FileHandler.getPathOfFetchedHTTPFile(remoteFilePath);
 
-      // console.log(filePath)
+    //   console.log(filePath)
 
-      if (await RNFS.exists(filePath)) {
-        await FileHandler.deleteFetchedHTTPFile(remoteFilePath);
-      }
+    //   if (await RNFS.exists(filePath)) {
+    //     await FileHandler.deleteFetchedHTTPFile(remoteFilePath);
+    //   }
 
-      const fileExists = await RNFS.exists(filePath);
+    //   const fileExists = await RNFS.exists(filePath);
   
-      if (fileExists) {
-        throw new Error('File cannot exist before we fetch it.');
-      }
+    //   if (fileExists) {
+    //     throw new Error('File cannot exist before we fetch it.');
+    //   }
 
-      await FileHandler.fetchHTTPFile(remoteFilePath);
+    //   await FileHandler.fetchHTTPFile(remoteFilePath);
 
-      await spec.pause(2000); // Needs to be long enough that the fetch completes
+    //   await spec.pause(2000); // Needs to be long enough that the fetch completes
 
-      const fileExistsNow = await RNFS.exists(filePath);
+    //   // Error:  Error: Unable to resolve host "live.staticflickr.com": No address associated with hostname
 
-      console.log('File Exists Now: ', fileExistsNow)
+    //   const fileExistsNow = await RNFS.exists(filePath);
 
-      // debugger
-      // NOTE:  In article, make a note about how the debugger is helpful to pause and see what's being logged
-      if (!fileExistsNow) {
-        throw new Error('File does not exist after we fetched it.');
-      }
+    //   console.log('File Exists Now: ', fileExistsNow)
 
-      const content = await RNFS.readFile(filePath, 'base64')
+    //   debugger
+    //   // NOTE:  In article, make a note about how the debugger is helpful to pause and see what's being logged
+    //   if (!fileExistsNow) {
+    //     throw new Error('File does not exist after we fetched it.');
+    //   }
 
-      console.log('Content: ', content)
+      // const content = await RNFS.readFile(filePath, 'base64')
 
-      const imageFilePath = RNFS.DocumentDirectoryPath + '/Base64.jpg'
-      
-      await AtomicFileOps.writeFile(imageFilePath, content, 'BASE64')
-    });
+      // console.log('Content: ', content)
+
+      // const imageFilePath = RNFS.DocumentDirectoryPath + '/Base64.jpg'
+
+      // await RNFS.writeFile(imageFilePath, content, 'base64')
+      // await AtomicFileOps.writeFile(imageFilePath, content, 'BASE64')
+    // });
 
   })
 }
