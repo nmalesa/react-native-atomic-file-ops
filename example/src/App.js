@@ -6,16 +6,21 @@ import {
   View,
 } from 'react-native';
 import AtomicFileOps from 'react-native-atomic-file-ops';
+import RNFS from 'react-native-fs'
 
+
+const fileName = 'CavyTest.txt'
+const directory = RNFS.DocumentDirectoryPath
+const filePath = `${directory}/${fileName}`;
 
 const App = () => {
 
-  AtomicFileOps.writeFile('CavyText.txt', 'hello', 'BASE64')
+  AtomicFileOps.writeFile(filePath, 'hello', 'BASE64')
   .then(value => {
     console.log('Succeeded with: ', value)
   }, reason => {
       console.log('Failed because of: ', reason)
-  })
+    })
 
   return (
     <View style={styles.container}>

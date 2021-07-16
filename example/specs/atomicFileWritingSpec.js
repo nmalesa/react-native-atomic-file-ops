@@ -65,9 +65,8 @@ export default function (spec) {
       console.log('Content: ', content)
 
       const imageFilePath = RNFS.DocumentDirectoryPath + '/Base64.jpg'
-
-      // TO DO;  Replace with AtomicFileOps
-      await RNFS.writeFile(imageFilePath, content, 'base64')
+      
+      await AtomicFileOps.writeFile(imageFilePath, content, 'BASE64')
     });
 
   })
