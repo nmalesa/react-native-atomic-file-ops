@@ -48,7 +48,7 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
 
       String caseNeutralCharacterSet = characterSetName.toLowerCase();
 
-      byte[] encoded;
+      byte[] encoded = null;
 
       switch (caseNeutralCharacterSet) {
         case "utf8":
@@ -67,17 +67,15 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
       }
 
       try {
-        charset = Charset.forName(caseNeutralCharacterSet);
-        writeFile(filePath, contents, charset, promise);
+        writeFile(filePath, encoded, promise);
       } catch (Exception ex) {
         promise.reject(ex);
       }
     }
 
     //Typesafe method that knows what a characterset is
-    private void writeFile(String filePath, String contents, Charset characterSet, Promise promise) {
+    private void writeFile(String filePath, byte[] encoded, Promise promise) {
         try {
-          byte[] data = contents.getBytes(characterSet);
           String fullFilePath = filePath;
           if (!filePath.contains("/")) {
             fullFilePath = reactContext.getApplicationContext().getCacheDir().getCanonicalPath() + filePath;
@@ -86,7 +84,7 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
             File file = new File(fullFilePath);
             AtomicFile af = new AtomicFile(file);
             FileOutputStream fos = af.startWrite();
-            fos.write(data);
+            fos.write(encoded);
             af.finishWrite(fos);
 
             promise.resolve(null);
