@@ -40,12 +40,10 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
         promise.resolve(a * b);
     }
 
-    //JavaScript doesn't have a characterset type, so we have to pass a String in
+    //JavaScript doesn't have a Charset type, so we have to pass a String in
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @ReactMethod
     public void writeFile(String filePath, String contents, String characterSetName, Promise promise) {
-      Charset charset;
-
       String caseNeutralCharacterSet = characterSetName.toLowerCase();
 
       byte[] encoded = null;
@@ -73,7 +71,6 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
       }
     }
 
-    //Typesafe method that knows what a characterset is
     private void writeFile(String filePath, byte[] encoded, Promise promise) {
         try {
           String fullFilePath = filePath;
