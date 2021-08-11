@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
 
@@ -37,25 +38,25 @@ export default function (spec) {
       Android:  R3VpbmVhIHBpZw==
       iOS:  UjNWcGJtVmhJSEJwWnc9PQ==
       */
-
-      const content = await RNFS.readFile(filePath, 'base64')
-      console.log('First content: ', content)
     
       // Overwrite the same file with shorter data
       await AtomicFileOps.writeFile(filePath, "Cat", 'BASE64')
-
-      const secondContent = await RNFS.readFile(filePath, 'base64')
-       /*
+      /*
       'Cat' in Base64
       Android:  Q2F0
       iOS:  UTJGMA==
       */
 
-      console.log('Second content: ', secondContent)
-      debugger
+      const content = await RNFS.readFile(filePath, 'base64')
 
-      if (secondContent !== 'Q2F0') {
-        throw 'Overwrites Base64 error:  Content does not match truncated input.'
+      if (Platform.OS === 'android') {
+        if (content !== 'Q2F0') {
+          throw 'Overwrites Base64 error:  Content does not match truncated input.'
+        }
+      } else {
+        if (content !== 'UTJGMA==') {
+          throw 'Overwrites Base64 error:  Content does not match truncated input.'
+        }
       }
     })
   })
