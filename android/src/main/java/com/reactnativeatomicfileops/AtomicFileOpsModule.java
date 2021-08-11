@@ -40,23 +40,39 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
         promise.resolve(a * b);
     }
 
-    //JavaScript doesn't have a characterset type, so we have to pass a String in
+    //JavaScript doesn't have a Charset type, so we have to pass a String in
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @ReactMethod
     public void writeFile(String filePath, String contents, String characterSetName, Promise promise) {
+      String caseNeutralCharacterSet = characterSetName.toLowerCase();
 
-      Charset charset;
+      byte[] encoded = null;
+
+      switch (caseNeutralCharacterSet) {
+        case "utf8":
+          encoded = contents.getBytes(StandardCharsets.UTF_8);
+          break;
+        case "ascii":
+          encoded = contents.getBytes(StandardCharsets.US_ASCII);
+          break;
+        case "base64":
+          String base64 = Base64.encodeToString(contents.getBytes(), Base64.DEFAULT);
+          encoded = Base64.decode(base64, Base64.DEFAULT);
+          break;
+        default:
+          // TODO: Handle error
+          System.out.println("Invalid character set");
+      }
+
       try {
-        charset = Charset.forName(characterSetName);
-        writeFile(filePath, contents, charset, promise);
+        writeFile(filePath, encoded, promise);
       } catch (Exception ex) {
         promise.reject(ex);
       }
     }
 
-    //Typesafe method that knows what a characterset is
-    private void writeFile(String filePath, String contents, Charset characterSet, Promise promise) {
+    private void writeFile(String filePath, byte[] encoded, Promise promise) {
         try {
-          byte[] data = contents.getBytes(characterSet);
           String fullFilePath = filePath;
           if (!filePath.contains("/")) {
             fullFilePath = reactContext.getApplicationContext().getCacheDir().getCanonicalPath() + filePath;
@@ -65,7 +81,7 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
             File file = new File(fullFilePath);
             AtomicFile af = new AtomicFile(file);
             FileOutputStream fos = af.startWrite();
-            fos.write(data);
+            fos.write(encoded);
             af.finishWrite(fos);
 
             promise.resolve(null);

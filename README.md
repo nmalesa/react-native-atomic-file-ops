@@ -37,9 +37,6 @@ import AtomicFileOps from "react-native-atomic-file-ops";
 
 // ...
 
-// EXAMPLE:  Writes to a text file
-await AtomicFileOps.writeFile('Cats.txt', '😸😹😺😻', 'UTF8')
-
 // EXAMPLE:  Writes to a JSON file
 const fileName = 'CavyImageMetadata.json'
 
@@ -83,7 +80,7 @@ Additionally, the library has been tested on React Native in an example app usin
 
 ## Credits
 
-Carl Brown and Natalia Malesa
+Natalia Malesa and Carl Brown
 
 ## License
 

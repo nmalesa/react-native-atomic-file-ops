@@ -110,46 +110,46 @@ class AtomicFileOperationsTests: XCTestCase {
   
 //TODO: Fix bad input tests
   
-//  func testBadCharacterSet() throws {
-//    let jsonString: String = "[{\"key\": \"value\"}]"
-//    let time = Date().timeIntervalSince1970
-//    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
-//    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
-//    let directory = FileManager.documentDirectoryURL
-//    let filePath = directory.appendingPathComponent(fileName).path
-//
-//    // Make sure file does not already exist
-//    if FileManager.default.fileExists(atPath: filePath) {
-//      try FileManager.default.removeItem(atPath: filePath)
-//    }
+  func testBadCharacterSet() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let time = Date().timeIntervalSince1970
+    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
+    let directory = FileManager.documentDirectoryURL
+    let filePath = directory.appendingPathComponent(fileName).path
+
+    // Make sure file does not already exist
+    if FileManager.default.fileExists(atPath: filePath) {
+      try FileManager.default.removeItem(atPath: filePath)
+    }
+    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
+
+    // Set expectation to verify asynchronous writing behaves as expected
+    let expectation = self.expectation(description: "File does not exist.")
+
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
+      XCTAssertNil(retVal)
+      expectation.fulfill()
+    }
+
+    waitForExpectations(timeout: 10) { error in
+      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+        XCTFail(existingError.localizedDescription)
+      }
+    }
+
 //    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-//
-//    // Set expectation to verify asynchronous writing behaves as expected
-//    let expectation = self.expectation(description: "File does not exist.")
-//
-//    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
-//      XCTAssertNil(retVal)
-//      expectation.fulfill()
-//    }
-//
-//    waitForExpectations(timeout: 10) { error in
-//      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
-//        XCTFail(existingError.localizedDescription)
-//      }
-//    }
-//
-////    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-//  }
+  }
   
-//  func testBadFilePath() throws {
-//    let jsonString: String = "[{\"key\": \"value\"}]"
-//    let time = Date().timeIntervalSince1970
-//    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
-//    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
-//    let directory = "../../../No Such Directory/"
-//
-//    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "UTF8", directory: directory) { (retVal, error) in
-//      XCTAssertNil(retVal)
-//    }
-//  }
+  func testBadFilePath() throws {
+    let jsonString: String = "[{\"key\": \"value\"}]"
+    let time = Date().timeIntervalSince1970
+    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
+    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
+    let directory = "../../../No Such Directory/"
+
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "UTF8", directory: directory) { (retVal, error) in
+      XCTAssertNil(retVal)
+    }
+  }
 }

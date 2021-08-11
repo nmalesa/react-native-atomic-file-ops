@@ -1,6 +1,10 @@
 import Foundation
 
 class AtomicFileHandler {
+  //TODO: Expand error
+  enum AtomicFileHandlerError : Error {
+    case badEncoding
+  }
   
   public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
       completionHandler(a * b)
@@ -10,22 +14,29 @@ class AtomicFileHandler {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     
-    // JavaScript doesn't have a CharacterSet type.  Need to convert String passed in from JavaScript to typesafe parameter.
-    var stringEncoding: String.Encoding = .ascii
+    let caseNeutralCharacterSet = characterSet.lowercased()
     
-    switch characterSet {
-      case "UTF8":
-        stringEncoding = .utf8
-      case "UTF16":
-        stringEncoding = .utf16
-      case "UTF32":
-        stringEncoding = .utf32
+    var encoded: Data?
+    
+    switch caseNeutralCharacterSet {
+      case "utf8":
+        encoded = contents.data(using: .utf8)
+      case "ascii":
+        encoded = contents.data(using: .ascii)
+      case "base64":
+        encoded = contents.data(using: .utf8)?.base64EncodedData()
       default:
-        print("Error: Character encoding must be Unicode. UTF-8 is preferred.")
+        completionHandler(nil, AtomicFileHandlerError.badEncoding)
+        return
+    }
+    
+    guard let encoded = encoded else {
+      completionHandler(nil, AtomicFileHandlerError.badEncoding)
+      return
     }
     
     do {
-      try contents.write(to: fileURL, atomically: true, encoding: stringEncoding)
+      try encoded.write(to: fileURL, options: .atomic)
       
       let atomicOutput = try String(contentsOf: fileURL)
       

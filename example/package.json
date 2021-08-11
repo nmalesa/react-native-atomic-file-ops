@@ -9,17 +9,16 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-native": "^0.64.2",
     "react-native-fs": "^2.18.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/runtime": "^7.14.6",
-    "@types/cavy": "^3.2.0",
+    "@babel/core": "^7.15.0",
+    "@babel/runtime": "^7.15.3",
+    "@types/cavy": "^3.2.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "cavy": "^4.0.1",
-    "metro-react-native-babel-preset": "^0.66.0"
+    "metro-react-native-babel-preset": "^0.66.2"
   }
 }
