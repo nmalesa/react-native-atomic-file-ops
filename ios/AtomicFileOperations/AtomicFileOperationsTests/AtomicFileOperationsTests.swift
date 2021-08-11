@@ -123,13 +123,18 @@ class AtomicFileOperationsTests: XCTestCase {
       try FileManager.default.removeItem(atPath: filePath)
     }
     XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-
+    
     // Set expectation to verify asynchronous writing behaves as expected
-    let expectation = self.expectation(description: "File does not exist.")
-
+    let expectation = self.expectation(description: "File written.")
+        
+    // Write out the full file, and read the file back in
     AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
-      XCTAssertNil(retVal)
-      expectation.fulfill()
+      XCTAssertEqual(AtomicFileHandlerError.badEncoding, error)
+//      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+//        XCTFail(existingError.localizedDescription)
+//      }
+//      XCTAssertTrue(FileManager.default.fileExists(atPath: filePath))
+//      expectation.fulfill()
     }
 
     waitForExpectations(timeout: 10) { error in
@@ -137,8 +142,11 @@ class AtomicFileOperationsTests: XCTestCase {
         XCTFail(existingError.localizedDescription)
       }
     }
-
-//    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
+    
+    // Clean up
+    if FileManager.default.fileExists(atPath: filePath) {
+      try FileManager.default.removeItem(atPath: filePath)
+    }
   }
   
   func testBadFilePath() throws {

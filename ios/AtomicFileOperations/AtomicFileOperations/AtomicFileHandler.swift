@@ -1,9 +1,17 @@
 import Foundation
 
 class AtomicFileHandler {
-  //TODO: Expand error
   enum AtomicFileHandlerError : Error {
-    case badEncoding
+    case badEncoding, badFilePath
+    
+    var definition: String {
+      switch self {
+      case .badEncoding:
+        return "ERROR Bad Encoding:  Please enter valid character set."
+      case .badFilePath:
+        return "ERROR Bad File Path:  Please enter valid file path."
+      }
+    }
   }
   
   public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
