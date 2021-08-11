@@ -32,15 +32,29 @@ export default function (spec) {
     spec.it('handles Base64', async function () {
       // Write the file
       await AtomicFileOps.writeFile(filePath, "Guinea pig", 'BASE64')
-      // 'Guinea pig' in Base64:  R3VpbmVhIHBpZw==
+      /*
+      'Guinea pig' in Base64
+      Android:  R3VpbmVhIHBpZw==
+      iOS:  UjNWcGJtVmhJSEJwWnc9PQ==
+      */
+
+      const content = await RNFS.readFile(filePath, 'base64')
+      console.log('First content: ', content)
     
       // Overwrite the same file with shorter data
       await AtomicFileOps.writeFile(filePath, "Cat", 'BASE64')
 
-      const content = await RNFS.readFile(filePath, 'base64')
-      // 'Cat' in Base64:  Q2F0
+      const secondContent = await RNFS.readFile(filePath, 'base64')
+       /*
+      'Cat' in Base64
+      Android:  Q2F0
+      iOS:  UTJGMA==
+      */
 
-      if (content !== 'Q2F0') {
+      console.log('Second content: ', secondContent)
+      debugger
+
+      if (secondContent !== 'Q2F0') {
         throw 'Overwrites Base64 error:  Content does not match truncated input.'
       }
     })

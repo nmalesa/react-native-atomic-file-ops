@@ -5,23 +5,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import AtomicFileOps from 'react-native-atomic-file-ops';
-import RNFS from 'react-native-fs'
-
-
-const fileName = 'CavyTest.txt'
-const directory = RNFS.DocumentDirectoryPath
-const filePath = `${directory}/${fileName}`;
 
 const App = () => {
-
-  AtomicFileOps.writeFile(filePath, 'hello', 'UTF8')
-  .then(value => {
-    console.log('Succeeded with: ', value)
-  }, reason => {
-      console.log('Failed because of: ', reason)
-    })
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Automated Testing with Cavy{'\n'}react-native-atomic-file-ops</Text>
