@@ -1,7 +1,7 @@
 import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
 
-const fileName = 'CavyTest.json'
+const fileName = 'AtomicFileOps_Cavy.test'
 const directory = RNFS.DocumentDirectoryPath
 const filePath = `${directory}/${fileName}`;
 
