@@ -1,7 +1,7 @@
 import Foundation
 
 class AtomicFileHandler {
-  enum AtomicFileHandlerError : Error {
+  enum AtomicFileHandlerError : Error, Equatable {
     case badEncoding, badFilePath
     
     var definition: String {

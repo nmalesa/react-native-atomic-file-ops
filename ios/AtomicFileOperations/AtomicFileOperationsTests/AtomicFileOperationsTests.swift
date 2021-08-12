@@ -107,9 +107,6 @@ class AtomicFileOperationsTests: XCTestCase {
     }
   }
   
-  
-//TODO: Fix bad input tests
-  
   func testBadCharacterSet() throws {
     let jsonString: String = "[{\"key\": \"value\"}]"
     let time = Date().timeIntervalSince1970
@@ -129,14 +126,11 @@ class AtomicFileOperationsTests: XCTestCase {
         
     // Write out the full file, and read the file back in
     AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
-      XCTAssertEqual(AtomicFileHandlerError.badEncoding, error)
-//      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
-//        XCTFail(existingError.localizedDescription)
-//      }
-//      XCTAssertTrue(FileManager.default.fileExists(atPath: filePath))
-//      expectation.fulfill()
+      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
+      XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
+      expectation.fulfill()
     }
-
+    
     waitForExpectations(timeout: 10) { error in
       if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
         XCTFail(existingError.localizedDescription)
