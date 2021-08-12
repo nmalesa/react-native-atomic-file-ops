@@ -1,17 +1,8 @@
 import Foundation
 
 class AtomicFileHandler {
-  enum AtomicFileHandlerError : Error, Equatable {
+  enum AtomicFileHandlerError : Error {
     case badEncoding, badFilePath
-    
-    var definition: String {
-      switch self {
-      case .badEncoding:
-        return "ERROR Bad Encoding:  Please enter valid character set."
-      case .badFilePath:
-        return "ERROR Bad File Path:  Please enter valid file path."
-      }
-    }
   }
   
   public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
@@ -20,6 +11,12 @@ class AtomicFileHandler {
   
   public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
+    
+    if fileName.contains("/") {
+      completionHandler(nil, AtomicFileHandlerError.badFilePath)
+      return
+    }
+    
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     
     let caseNeutralCharacterSet = characterSet.lowercased()
