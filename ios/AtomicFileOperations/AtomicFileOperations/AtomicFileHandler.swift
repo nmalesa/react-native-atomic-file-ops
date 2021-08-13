@@ -12,10 +12,10 @@ class AtomicFileHandler {
   public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     
-    if fileName.contains("/") {
-      completionHandler(nil, AtomicFileHandlerError.badFilePath)
-      return
-    }
+//    if fileName.contains("/") {
+//      completionHandler(nil, AtomicFileHandlerError.badFilePath)
+//      return
+//    }
     
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     

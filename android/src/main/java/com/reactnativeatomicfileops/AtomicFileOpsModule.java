@@ -74,15 +74,25 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
     private void writeFile(String filePath, byte[] encoded, Promise promise) {
         try {
           String fullFilePath = filePath;
+          System.out.println("FullFilePathOne: " + fullFilePath);
           if (!filePath.contains("/")) {
-            fullFilePath = reactContext.getApplicationContext().getCacheDir().getCanonicalPath() + filePath;
+            System.out.println("I am being called");
+//            fullFilePath = reactContext.getApplicationContext().getCacheDir().getCanonicalPath() + filePath;
+//            RNFS Document Directory Path:  getReactApplicationContext().getFilesDir().getAbsolutePath());
+//            fullFilePath = getReactApplicationContext().getFilesDir().getAbsolutePath() + "/" + filePath;
+            fullFilePath = reactContext.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + filePath;
           }
 
+          System.out.println("FullFilePathTwo: " + fullFilePath);
             File file = new File(fullFilePath);
+            System.out.println("NewFile: " + file);
             AtomicFile af = new AtomicFile(file);
+            System.out.println("NewAtomicFile: " + af);
             FileOutputStream fos = af.startWrite();
+            System.out.println("NewOutputStream: " + fos);
             fos.write(encoded);
             af.finishWrite(fos);
+            System.out.println("AtomicTwo: " + af);
 
             promise.resolve(null);
         } catch (Exception ex) {
