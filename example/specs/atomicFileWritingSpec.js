@@ -2,9 +2,10 @@ import { Platform } from 'react-native'
 import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
 
-const fileName = 'AtomicFileOps_Cavy.test'
+const fileName = 'AtomicFileOpsCavy.test'
 const directory = RNFS.DocumentDirectoryPath
-const filePath = `${directory}/${fileName}`;
+const filePath = `${directory}/${fileName}`
+const testDir = '/data/user/0/com.example.reactnativeatomicfileops/files/AtomicFileOpsCavy.test'
 
 
 export default function (spec) {
@@ -18,12 +19,12 @@ export default function (spec) {
 
     spec.it('overwrites JSON', async function () {
       // Write the file
-      await AtomicFileOps.writeFile(filePath, "[{\"Guinea pig\": \"Cavia porcellus\"}]", 'UTF8')
+      await AtomicFileOps.writeFile(fileName, "[{\"Guinea pig\": \"Cavia porcellus\"}]", 'UTF8')
 
       // Overwrite the same file with shorter JSON data
-      await AtomicFileOps.writeFile(filePath, "[{\"Cat\": \"Felis catus\"}]", 'UTF8')
+      await AtomicFileOps.writeFile(fileName, "[{\"Cat\": \"Felis catus\"}]", 'UTF8')
 
-      const content = await RNFS.readFile(filePath, 'utf8') 
+      const content = await RNFS.readFile(fileName, 'utf8') 
       
       if (content !== "[{\"Cat\": \"Felis catus\"}]") {
         throw 'Overwrites JSON Error:  Content does not match truncated input.'
@@ -32,7 +33,7 @@ export default function (spec) {
 
     spec.it('handles Base64', async function () {
       // Write the file
-      await AtomicFileOps.writeFile(filePath, "Guinea pig", 'BASE64')
+      await AtomicFileOps.writeFile(testDir, "Guinea pig", 'BASE64')
       /*
       'Guinea pig' in Base64
       Android:  R3VpbmVhIHBpZw==
@@ -40,14 +41,14 @@ export default function (spec) {
       */
     
       // Overwrite the same file with shorter data
-      await AtomicFileOps.writeFile(filePath, "Cat", 'BASE64')
+      await AtomicFileOps.writeFile(testDir, "Cat", 'BASE64')
       /*
       'Cat' in Base64
       Android:  Q2F0
       iOS:  UTJGMA==
       */
 
-      const content = await RNFS.readFile(filePath, 'base64')
+      const content = await RNFS.readFile(testDir, 'base64')
 
       if (Platform.OS === 'android') {
         if (content !== 'Q2F0') {
