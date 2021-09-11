@@ -1,6 +1,6 @@
-import { Platform } from 'react-native'
-import RNFS from 'react-native-fs';
 import AtomicFileOps from 'react-native-atomic-file-ops'
+import { Platform } from 'react-native'
+import RNFS from 'react-native-fs'
 
 const fileName = 'AtomicFileOpsCavy.test'
 const filePath = `${RNFS.DocumentDirectoryPath}/${fileName}`
