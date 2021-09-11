@@ -24,6 +24,12 @@ While this library was initially built to fix a bug occurring on a specific vers
 npm install react-native-atomic-file-ops
 ```
 
+If using yarn:
+
+```sh
+yarn add react-native-atomic-file-ops
+```
+
 For iOS:
 ```sh
 cd ios
@@ -57,12 +63,12 @@ await AtomicFileOps.writeFile(fileName, JSON.stringify(imageMetadata), unicode)
 
 ## API
 
-### ```writeFile(filePath: String, data: String, options: String)```
-Writes the `data` atomically to the `filePath`. `options` allows for following encoded character sets:  `utf8`, `ascii`, or `base64`.
+### ```writeFile(fileName: String, data: String, options: String)```
+Writes the `data` atomically to the file, `fileName`. `options` allows for following encoded character sets:  `utf8`, `ascii`, or `base64`.
 
 ## Example App
 
-This library includes an example app showing how `react-native-atomic-file-ops` can be used to fix corrupted files.  See the example app’s documentation for information on running the app and its tests.
+This library includes an example app showing how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s documentation for information on running the app and its tests.
 
 ## Tests
 
