@@ -47,7 +47,6 @@ class AtomicFileOperationsTests: XCTestCase {
   func testOverwriteJSON() throws {
     let expectation = self.expectation(description: "File written.")
       
-    // Write out the full file, and read the file back in
     AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
       
@@ -82,8 +81,7 @@ class AtomicFileOperationsTests: XCTestCase {
   
   func testBadCharacterSet() throws {
     let expectation = self.expectation(description: "File written.")
-        
-    // Write out the full file, and read the file back in
+
     AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
       XCTAssertEqual(nil, retVal)
       XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
