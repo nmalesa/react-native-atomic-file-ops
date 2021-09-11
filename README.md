@@ -64,7 +64,7 @@ await AtomicFileOps.writeFile(fileName, JSON.stringify(imageMetadata), unicode)
 ## API
 
 ### ```writeFile(fileName: String, data: String, options: String)```
-Writes the `data` atomically to the file, `fileName`. `options` allows for following encoded character sets:  `utf8`, `ascii`, or `base64`.
+Writes the `data` atomically to the given file, `fileName`. `options` allows for the following encoded character sets:  `utf8`, `ascii`, or `base64`.
 
 ## Example App
 

@@ -2,21 +2,6 @@ import XCTest
 @testable import AtomicFileOperations
 
 class AtomicFileOperationsTests: XCTestCase {
-
-  func testExample() throws {
-      // This is an example of a functional test case.
-      // Use XCTAssert and related functions to verify your tests produce the correct results.
-      AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
-          XCTAssertEqual(55.0, retVal)
-      }
-  }
-  
-  func testWriteTextFile() throws {
-    AtomicFileHandler.writeFile(fileName: "Cats.txt", contents: "😸😹😺😻", characterSet: "UTF8") { (retVal, error) in
-      XCTAssertEqual("😸😹😺😻", retVal)
-    }
-  }
-  
   func testWriteJSON() throws {
     let jsonString: String = "[{\"key\": \"value\"}]"
     let time = Date().timeIntervalSince1970

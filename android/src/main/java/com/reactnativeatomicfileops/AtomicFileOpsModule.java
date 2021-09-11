@@ -34,12 +34,6 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
         return "AtomicFileOps";
     }
 
-    @ReactMethod
-    public void multiply(int a, int b, Promise promise) {
-        // TODO: Implement some actually useful functionality
-        promise.resolve(a * b);
-    }
-
     //JavaScript doesn't have a Charset type, so we have to pass a String in
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @ReactMethod

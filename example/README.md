@@ -2,6 +2,8 @@
 
 This React Native app provides an example of how the `react-native-atomic-file-ops` library can be imported and used.  It also demonstrates how the library is able to successfully overwrite existing content in a file with truncated data.
 
+See the library in use at:  ```example/specs/atomicFileWritingSpec.js``` (link to this file)
+
 ## Getting Started
 
 ### Install Dependencies

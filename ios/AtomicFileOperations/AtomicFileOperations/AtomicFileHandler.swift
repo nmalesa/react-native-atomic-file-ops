@@ -5,10 +5,6 @@ class AtomicFileHandler {
     case badEncoding, badFilePath
   }
   
-  public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
-      completionHandler(a * b)
-  }
-  
   public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     
