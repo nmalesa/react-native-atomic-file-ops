@@ -2,7 +2,7 @@
 
 This React Native app provides an example of how the `react-native-atomic-file-ops` library can be imported and used.  It also demonstrates how the library is able to successfully overwrite existing content in a file with truncated data.
 
-See the library in use at:  ```example/specs/atomicFileWritingSpec.js``` (link to this file)
+See the library in use at the [Atomic File Writing Specs](example/specs/atomicFileWritingSpec.js)
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ yarn ios
 
 When the app is running successfully and ready to start testing, you should see the following screen:
 
-<img src="./assets/appLandingScreen.png" width="200">
+<img src="example/assets/appLandingScreen.png" width="200">
 
 **Note:**  The above image is of an iPhone 12 Simulator display.  The appearance of your screen may vary slightly depending on which emulator, simulator, or physical device you are using.
 
