@@ -72,17 +72,17 @@ This library includes an example app showing how `react-native-atomic-file-ops` 
 
 ## Tests
 
-The `writeFile` API has been tested in both Java (link to tests for Android) and Swift (link to tests for iOS).  Scenarios tested include:
+The `writeFile` API has been tested in both [Java](android/src/androidTest/java/com/reactnativeatomicfileops/AtomicFileOpsModuleTests.java) and [Swift](ios/AtomicFileOperations/AtomicFileOperationsTests/AtomicFileOperationsTests.swift).  Scenarios tested include:
 * Writing JSON to a file
 * Overwriting an existing file with truncated data
 * Providing `writeFile` with a corrupted character set
 * Providing `writeFile` with a corrupted file path
 
-Additionally, the library has been tested on React Native in an example app using Cavy (link to tests for React Native).  See the example app’s documentation for information on running Cavy tests.
+Additionally, the library has been tested on React Native in an example app using [Cavy](example/specs/atomicFileWritingSpec.js).  See the example app’s documentation for information on running Cavy tests.
 
 ## Contributing
 
-`react-native-atomic-file-ops` is open-source.  If you find a bug or have an idea to improve this module, please open an issue.
+`react-native-atomic-file-ops` is open source.  If you find a bug or have an idea for improving this project, please open an issue.
 
 ## Credits
 
@@ -90,4 +90,4 @@ Natalia Malesa and Carl Brown
 
 ## License
 
-MIT License (add link to LICENSE file)
+[MIT License](LICENSE)
