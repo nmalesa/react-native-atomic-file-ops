@@ -81,7 +81,6 @@ class AtomicFileOperationsTests: XCTestCase {
   
   func testBadCharacterSet() throws {
     let expectation = self.expectation(description: "File written.")
-
     AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
       XCTAssertEqual(nil, retVal)
       XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
