@@ -95,7 +95,7 @@ class AtomicFileOperationsTests: XCTestCase {
     }
   }
   
-  func testBadFilePath() throws {
+  func testBadFileName() throws {
     let expectation = self.expectation(description: "File written.")
 
     AtomicFileHandler.writeFile(fileName: "No/Such/File", contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in

@@ -2,14 +2,14 @@ import Foundation
 
 class AtomicFileHandler {
   enum AtomicFileHandlerError : Error {
-    case badEncoding, badFilePath
+    case badEncoding, badFileName
   }
   
   public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     
-    if fileName.contains("/") {
-      completionHandler(nil, AtomicFileHandlerError.badFilePath)
+    guard !fileName.contains("/") else {
+      completionHandler(nil, AtomicFileHandlerError.badFileName)
       return
     }
     
@@ -27,6 +27,7 @@ class AtomicFileHandler {
       case "base64":
         encoded = contents.data(using: .utf8)?.base64EncodedData()
       default:
+        print("Bad Encoding: ", AtomicFileHandlerError.badEncoding.localizedDescription)
         completionHandler(nil, AtomicFileHandlerError.badEncoding)
         return
     }

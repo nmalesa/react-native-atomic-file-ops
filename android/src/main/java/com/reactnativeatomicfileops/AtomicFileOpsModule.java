@@ -54,7 +54,6 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
           encoded = Base64.decode(base64, Base64.DEFAULT);
           break;
         default:
-          // TODO: Handle error
           System.out.println("Invalid character set");
       }
 
