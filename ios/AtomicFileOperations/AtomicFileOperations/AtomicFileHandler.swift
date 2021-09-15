@@ -1,7 +1,7 @@
 import Foundation
 
 class AtomicFileHandler {
-  enum AtomicFileHandlerError : Error {
+  enum AtomicFileHandlerError : Error, Equatable {
     case badEncoding, badFileName
   }
   
@@ -27,7 +27,7 @@ class AtomicFileHandler {
       case "base64":
         encoded = contents.data(using: .utf8)?.base64EncodedData()
       default:
-        print("Bad Encoding: ", AtomicFileHandlerError.badEncoding.localizedDescription)
+//        print("Bad Encoding: ", AtomicFileHandlerError.badEncoding.localizedDescription)
         completionHandler(nil, AtomicFileHandlerError.badEncoding)
         return
     }

@@ -80,35 +80,24 @@ class AtomicFileOperationsTests: XCTestCase {
   }
   
   func testBadCharacterSet() throws {
-    let expectation = self.expectation(description: "File written.")
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
-      XCTAssertEqual(nil, retVal)
-      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
-      XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-      expectation.fulfill()
-    }
+    let expectedError = AtomicFileHandler.AtomicFileHandlerError.badEncoding
     
-    waitForExpectations(timeout: 10) { error in
-      if let existingError = error {
-        XCTFail(existingError.localizedDescription)
-      }
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "12345", directory: directory.path) { (retVal, error) in
+      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError, "Unexpected error type: \(type(of: error))")
+      XCTAssertEqual(error as? AtomicFileHandler.AtomicFileHandlerError, .badEncoding)
+      XCTAssertEqual(expectedError.localizedDescription, error?.localizedDescription)
+      XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
     }
   }
   
   func testBadFileName() throws {
-    let expectation = self.expectation(description: "File written.")
+    let expectedError = AtomicFileHandler.AtomicFileHandlerError.badFileName
 
     AtomicFileHandler.writeFile(fileName: "No/Such/File", contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
-      XCTAssertEqual(nil, retVal)
-      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
+      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError, "Unexpected error type: \(type(of: error))")
+      XCTAssertEqual(error as? AtomicFileHandler.AtomicFileHandlerError, .badFileName)
+      XCTAssertEqual(expectedError.localizedDescription, error?.localizedDescription)
       XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-      expectation.fulfill()
-    }
-    
-    waitForExpectations(timeout: 10) { error in
-      if let existingError = error {
-        XCTFail(existingError.localizedDescription)
-      }
     }
   }
 }
