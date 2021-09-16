@@ -31,15 +31,6 @@ import java.util.Calendar;
 public class AtomicFileOpsModuleTests {
 
     @Test
-    public void multiply() {
-      SimplePromise p = new SimplePromise();
-      new AtomicFileOpsModule(null).multiply(5, 11, p);
-      Assert.assertTrue(p.wasResolved());
-      Assert.assertFalse(p.wasRejected());
-      Assert.assertEquals(55, p.getValue());
-    }
-
-    @Test
     public void writeJSON() throws JSONException, IOException {
       String jsonString = "[{\"key\": \"value\"}]";
       AtomicFileOpsModule fom = new AtomicFileOpsModule(new ReactApplicationContext(InstrumentationRegistry.getContext()));

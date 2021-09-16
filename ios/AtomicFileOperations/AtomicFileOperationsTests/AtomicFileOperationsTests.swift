@@ -2,83 +2,58 @@ import XCTest
 @testable import AtomicFileOperations
 
 class AtomicFileOperationsTests: XCTestCase {
-
-  func testExample() throws {
-      // This is an example of a functional test case.
-      // Use XCTAssert and related functions to verify your tests produce the correct results.
-      AtomicFileHandler.multiplyAsync(a: 5.0, b: 11.0) { (retVal) in
-          XCTAssertEqual(55.0, retVal)
-      }
-  }
+  let jsonData = "[{\"key\": \"value\"}]"
+  let fileName = "AtomicFileOpsModuleTest.test"
+  let directory = FileManager.documentDirectoryURL
+  lazy var filePath = directory.appendingPathComponent(fileName).path
   
-  func testWriteTextFile() throws {
-    AtomicFileHandler.writeFile(fileName: "Cats.txt", contents: "😸😹😺😻", characterSet: "UTF8") { (retVal, error) in
-      XCTAssertEqual("😸😹😺😻", retVal)
+  override func setUp() {
+    super.setUp()
+
+    // Make sure file does not already exist
+    do {
+      if FileManager.default.fileExists(atPath: filePath) {
+        try FileManager.default.removeItem(atPath: filePath)
+      }
+    } catch {
+      print(error)
     }
+    
+    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
   }
   
   func testWriteJSON() throws {
-    let jsonString: String = "[{\"key\": \"value\"}]"
-    let time = Date().timeIntervalSince1970
-    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
-    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
-    let directory = FileManager.documentDirectoryURL
-    let filePath = directory.appendingPathComponent(fileName).path
-
-    // Make sure file does not already exist
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
-    }
-    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-    
-    // Set expectation to verify asynchronous writing behaves as expected
     let expectation = self.expectation(description: "File written.")
         
     // Write out the full file, and read the file back in 
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+    
+      if let existingError = error {
         XCTFail(existingError.localizedDescription)
       }
+      
       XCTAssertTrue(FileManager.default.fileExists(atPath: filePath))
       expectation.fulfill()
     }
 
     waitForExpectations(timeout: 10) { error in
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+      if let existingError = error {
         XCTFail(existingError.localizedDescription)
       }
-    }
-    
-    // Clean up
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
     }
   }
     
   func testOverwriteJSON() throws {
-    let jsonString: String = "[{\"key\": \"value\"}]"
-    let time = Date().timeIntervalSince1970
-    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
-    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
-    let directory = FileManager.documentDirectoryURL
-    let filePath = directory.appendingPathComponent(fileName).path
-      
-    // Make sure file does not already exist
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
-    }
-    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-    
-    // Set expectation to verify asynchronous writing behaves as expected
     let expectation = self.expectation(description: "File written.")
       
-    // Write out the full file, and read the file back in
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+      
+      if let existingError = error {
         XCTFail(existingError.localizedDescription)
       }
+      
       XCTAssertTrue(FileManager.default.fileExists(atPath: filePath))
       expectation.fulfill()
     }
@@ -88,94 +63,41 @@ class AtomicFileOperationsTests: XCTestCase {
     // Overwrite the file with a shorter string, and read the file back in.
     AtomicFileHandler.writeFile(fileName: fileName, contents: "[]", characterSet: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[]", retVal)
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+      
+      if let existingError = error {
         XCTFail(existingError.localizedDescription)
       }
+      
       XCTAssertTrue(FileManager.default.fileExists(atPath: filePath))
       overwriteExpectation.fulfill()
     }
     
     waitForExpectations(timeout: 10) { error in
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
+      if let existingError = error {
         XCTFail(existingError.localizedDescription)
       }
-    }
-  
-    // Clean up
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
     }
   }
   
   func testBadCharacterSet() throws {
-    let jsonString: String = "[{\"key\": \"value\"}]"
-    let time = Date().timeIntervalSince1970
-    let timeString = String(time).replacingOccurrences(of: ".", with: "_")
-    let fileName: String = "AtomicFileOpsModuleTest.test." + timeString + ".json"
-    let directory = FileManager.documentDirectoryURL
-    let filePath = directory.appendingPathComponent(fileName).path
-
-    // Make sure file does not already exist
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
-    }
-    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
+    let expectedError = AtomicFileHandler.AtomicFileHandlerError.badEncoding
     
-    // Set expectation to verify asynchronous writing behaves as expected
-    let expectation = self.expectation(description: "File written.")
-        
-    // Write out the full file, and read the file back in
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "No Such Character Set", directory: directory.path) { (retVal, error) in
-      XCTAssertEqual(nil, retVal)
-      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "12345", directory: directory.path) { (retVal, error) in
+      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError, "Unexpected error type: \(type(of: error))")
+      XCTAssertEqual(error as? AtomicFileHandler.AtomicFileHandlerError, .badEncoding)
+      XCTAssertEqual(expectedError.localizedDescription, error?.localizedDescription)
       XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-      expectation.fulfill()
-    }
-    
-    waitForExpectations(timeout: 10) { error in
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
-        XCTFail(existingError.localizedDescription)
-      }
-    }
-    
-    // Clean up
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
     }
   }
   
-  func testBadFilePath() throws {
-    let jsonString: String = "[{\"key\": \"value\"}]"
-    let fileName: String = "No/Such/File"
-    let directory = FileManager.documentDirectoryURL
-    let filePath = directory.appendingPathComponent(fileName).path
+  func testBadFileName() throws {
+    let expectedError = AtomicFileHandler.AtomicFileHandlerError.badFileName
 
-    
-    // Make sure file does not already exist
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
-    }
-    XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-    
-    // Set expectation to verify asynchronous writing behaves as expected
-    let expectation = self.expectation(description: "File written.")
-
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonString, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
-      XCTAssertEqual(nil, retVal)
-      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError)
+    AtomicFileHandler.writeFile(fileName: "No/Such/File", contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+      XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError, "Unexpected error type: \(type(of: error))")
+      XCTAssertEqual(error as? AtomicFileHandler.AtomicFileHandlerError, .badFileName)
+      XCTAssertEqual(expectedError.localizedDescription, error?.localizedDescription)
       XCTAssertFalse(FileManager.default.fileExists(atPath: filePath))
-      expectation.fulfill()
-    }
-    
-    waitForExpectations(timeout: 10) { error in
-      if let existingError = error { // Could be guard statement alternatively (idiomatic Swift)
-        XCTFail(existingError.localizedDescription)
-      }
-    }
-    
-    // Clean up
-    if FileManager.default.fileExists(atPath: filePath) {
-      try FileManager.default.removeItem(atPath: filePath)
     }
   }
 }

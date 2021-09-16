@@ -34,12 +34,6 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
         return "AtomicFileOps";
     }
 
-    @ReactMethod
-    public void multiply(int a, int b, Promise promise) {
-        // TODO: Implement some actually useful functionality
-        promise.resolve(a * b);
-    }
-
     //JavaScript doesn't have a Charset type, so we have to pass a String in
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @ReactMethod
@@ -60,7 +54,6 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
           encoded = Base64.decode(base64, Base64.DEFAULT);
           break;
         default:
-          // TODO: Handle error
           System.out.println("Invalid character set");
       }
 
@@ -72,22 +65,22 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
     }
 
     private void writeFile(String filePath, byte[] encoded, Promise promise) {
-        try {
-          String fullFilePath = filePath;
-          if (!filePath.contains("/")) {
-            fullFilePath = reactContext.getApplicationContext().getCacheDir().getCanonicalPath() + filePath;
-          }
-
-            File file = new File(fullFilePath);
-            AtomicFile af = new AtomicFile(file);
-            FileOutputStream fos = af.startWrite();
-            fos.write(encoded);
-            af.finishWrite(fos);
-
-            promise.resolve(null);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            promise.reject(filePath, ex);
+      try {
+        String fullFilePath = filePath;
+        if (!filePath.contains("/")) {
+          fullFilePath = reactContext.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + filePath;
         }
+
+        File file = new File(fullFilePath);
+        AtomicFile af = new AtomicFile(file);
+        FileOutputStream fos = af.startWrite();
+        fos.write(encoded);
+        af.finishWrite(fos);
+
+        promise.resolve(null);
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        promise.reject(filePath, ex);
+      }
     }
 }

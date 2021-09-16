@@ -1,7 +1,7 @@
 {
   "name": "react-native-atomic-file-ops",
   "version": "0.1.0",
-  "description": "Atomiv File Operations for React Native",
+  "description": "Atomic File Operations for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",

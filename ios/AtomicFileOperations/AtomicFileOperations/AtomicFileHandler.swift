@@ -1,19 +1,15 @@
 import Foundation
 
 class AtomicFileHandler {
-  enum AtomicFileHandlerError : Error {
-    case badEncoding, badFilePath
-  }
-  
-  public static func multiplyAsync(a: Float, b: Float, completionHandler:(Float) -> Void) -> Void {
-      completionHandler(a * b)
+  enum AtomicFileHandlerError : Error, Equatable {
+    case badEncoding, badFileName
   }
   
   public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     
-    if fileName.contains("/") {
-      completionHandler(nil, AtomicFileHandlerError.badFilePath)
+    guard !fileName.contains("/") else {
+      completionHandler(nil, AtomicFileHandlerError.badFileName)
       return
     }
     
