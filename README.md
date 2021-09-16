@@ -35,7 +35,7 @@ pod install
 ```
 
 ## How to Use
-```js
+```javascript
 import AtomicFileOps from "react-native-atomic-file-ops";
 
 // ...
@@ -59,22 +59,20 @@ await AtomicFileOps.writeFile(fileName, JSON.stringify(imageMetadata), unicode)
 ```
 
 ## API
-### ```writeFile(fileName: String, data: String, options: String)```
-Writes the `data` atomically to the given file, `fileName`. `options` allows for the following encoded character sets:  `utf8`, `ascii`, or `base64`.
+### ```writeFile(fileName: String, contents: String, encoding: String)```
+Writes the `contents` atomically to the given file, `fileName`. `encoding` allows for the following encoded character sets:  `utf8`, `ascii`, or `base64`.
 
 ## Example App
-
-This library includes an example app showing how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s documentation for information on running the app and its tests.
+This library includes an example app showing how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s [documentation](example/README.md) for information on running the app and its tests.
 
 ## Tests
-
 The `writeFile` API has been tested in both [Java](android/src/androidTest/java/com/reactnativeatomicfileops/AtomicFileOpsModuleTests.java) and [Swift](ios/AtomicFileOperations/AtomicFileOperationsTests/AtomicFileOperationsTests.swift).  Scenarios tested include:
-- Writing JSON to a file
-- Overwriting an existing file with truncated data
-- Providing `writeFile` with a corrupted character set
-- Providing `writeFile` with a corrupted file path
+* Writing JSON to a file
+* Overwriting an existing file with truncated data
+* Providing `writeFile` with a corrupted character set
+* Providing `writeFile` with a corrupted file path
 
-Additionally, the library has been tested on React Native in an example app using [Cavy](example/specs/atomicFileWritingSpec.js).  See the example app’s documentation for information on running Cavy tests.
+Additionally, the library has been tested on React Native in an example app using [Cavy](example/specs/atomicFileWritingSpec.js).  See the example app’s [documentation](example/README.md) for information on running Cavy tests.
 
 ## Contributing
 `react-native-atomic-file-ops` is open-source.  If you find a bug or have an idea for improving this project, please open an issue.

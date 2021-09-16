@@ -5,7 +5,7 @@ class AtomicFileHandler {
     case badEncoding, badFileName
   }
   
-  public static func writeFile(fileName: String, contents: String, characterSet: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
+  public static func writeFile(fileName: String, contents: String, encoding: String, directory: String? = nil, completionHandler: (String?, Error?) -> Void) -> Void {
     let directoryPath = (directory != nil) ? URL(fileURLWithPath: directory!) : FileManager.documentDirectoryURL
     
     guard !fileName.contains("/") else {
@@ -15,11 +15,9 @@ class AtomicFileHandler {
     
     let fileURL = URL(fileURLWithPath: fileName, relativeTo: directoryPath)
     
-    let caseNeutralCharacterSet = characterSet.lowercased()
-    
     var encoded: Data?
     
-    switch caseNeutralCharacterSet {
+    switch encoding.lowercased() {
       case "utf8":
         encoded = contents.data(using: .utf8)
       case "ascii":

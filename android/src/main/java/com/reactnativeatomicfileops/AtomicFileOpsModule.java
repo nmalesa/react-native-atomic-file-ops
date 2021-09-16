@@ -37,12 +37,10 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
     //JavaScript doesn't have a Charset type, so we have to pass a String in
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @ReactMethod
-    public void writeFile(String filePath, String contents, String characterSetName, Promise promise) {
-      String caseNeutralCharacterSet = characterSetName.toLowerCase();
-
+    public void writeFile(String fileName, String contents, String encoding, Promise promise) {
       byte[] encoded = null;
 
-      switch (caseNeutralCharacterSet) {
+      switch (encoding.toLowerCase()) {
         case "utf8":
           encoded = contents.getBytes(StandardCharsets.UTF_8);
           break;
@@ -54,11 +52,11 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
           encoded = Base64.decode(base64, Base64.DEFAULT);
           break;
         default:
-          System.out.println("Invalid character set");
+          System.out.println("Bad Encoding:  Please enter Unicode (.utf8), ASCII (.ascii), or Base64 (.base64).");
       }
 
       try {
-        writeFile(filePath, encoded, promise);
+        writeFile(fileName, encoded, promise);
       } catch (Exception ex) {
         promise.reject(ex);
       }

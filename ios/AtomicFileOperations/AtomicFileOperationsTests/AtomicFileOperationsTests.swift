@@ -26,7 +26,7 @@ class AtomicFileOperationsTests: XCTestCase {
     let expectation = self.expectation(description: "File written.")
         
     // Write out the full file, and read the file back in 
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, encoding: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
     
       if let existingError = error {
@@ -47,7 +47,7 @@ class AtomicFileOperationsTests: XCTestCase {
   func testOverwriteJSON() throws {
     let expectation = self.expectation(description: "File written.")
       
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, encoding: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[{\"key\": \"value\"}]", retVal)
       
       if let existingError = error {
@@ -61,7 +61,7 @@ class AtomicFileOperationsTests: XCTestCase {
     let overwriteExpectation = self.expectation(description: "File overwritten.")
 
     // Overwrite the file with a shorter string, and read the file back in.
-    AtomicFileHandler.writeFile(fileName: fileName, contents: "[]", characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: fileName, contents: "[]", encoding: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertEqual("[]", retVal)
       
       if let existingError = error {
@@ -82,7 +82,7 @@ class AtomicFileOperationsTests: XCTestCase {
   func testBadCharacterSet() throws {
     let expectedError = AtomicFileHandler.AtomicFileHandlerError.badEncoding
     
-    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, characterSet: "12345", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: fileName, contents: jsonData, encoding: "12345", directory: directory.path) { (retVal, error) in
       XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError, "Unexpected error type: \(type(of: error))")
       XCTAssertEqual(error as? AtomicFileHandler.AtomicFileHandlerError, .badEncoding)
       XCTAssertEqual(expectedError.localizedDescription, error?.localizedDescription)
@@ -93,7 +93,7 @@ class AtomicFileOperationsTests: XCTestCase {
   func testBadFileName() throws {
     let expectedError = AtomicFileHandler.AtomicFileHandlerError.badFileName
 
-    AtomicFileHandler.writeFile(fileName: "No/Such/File", contents: jsonData, characterSet: "UTF8", directory: directory.path) { (retVal, error) in
+    AtomicFileHandler.writeFile(fileName: "No/Such/File", contents: jsonData, encoding: "UTF8", directory: directory.path) { (retVal, error) in
       XCTAssertTrue(error is AtomicFileHandler.AtomicFileHandlerError, "Unexpected error type: \(type(of: error))")
       XCTAssertEqual(error as? AtomicFileHandler.AtomicFileHandlerError, .badFileName)
       XCTAssertEqual(expectedError.localizedDescription, error?.localizedDescription)
