@@ -45,6 +45,7 @@ When the app is running successfully and ready to start testing, you should see 
 ## Running the Tests
 
 The AtomicFileOps example app uses [Cavy](https://cavy.app/) to provide integration testing of the `react-native-atomic-file-ops` library.  Scenarios tested include:
+
 * Overwriting an existing file with truncated JSON data
 * Overwriting an existing file with truncated Base64 data
 
