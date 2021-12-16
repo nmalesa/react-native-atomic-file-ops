@@ -7,6 +7,7 @@ import androidx.core.util.AtomicFile;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ReactApplicationContext;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,22 +31,12 @@ import java.util.Calendar;
 public class AtomicFileOpsModuleTests {
 
     @Test
-    public void multiply() {
-      SimplePromise p = new SimplePromise();
-      new AtomicFileOpsModule(null).multiply(5, 11, p);
-      Assert.assertTrue(p.wasResolved());
-      Assert.assertFalse(p.wasRejected());
-      Assert.assertEquals(55, p.getValue());
-    }
-
-    @Test
     public void writeJSON() throws JSONException, IOException {
       String jsonString = "[{\"key\": \"value\"}]";
-      AtomicFileOpsModule fom = new AtomicFileOpsModule(null);
+      AtomicFileOpsModule fom = new AtomicFileOpsModule(new ReactApplicationContext(InstrumentationRegistry.getContext()));
       String timeString = Calendar.getInstance().getTime().toString().replaceAll(" ","").replaceAll(":","");
-      File outputDir = InstrumentationRegistry.getContext().getCacheDir();
-      String filePath = outputDir + "/AtomicFileOpsModuleTest.test." + timeString + ".json";
-      File f = new File(filePath);
+      String filePath = "AtomicFileOpsModuleTest.test." + timeString + ".json";
+      File f = new File(InstrumentationRegistry.getContext().getCacheDir().getAbsolutePath() + filePath);
       //Make sure file doesn't already exist
       if (f.exists()) {
         boolean deleted = f.delete();
@@ -73,11 +64,10 @@ public class AtomicFileOpsModuleTests {
   @Test
   public void overWriteJSON() throws JSONException, IOException {
     String jsonString = "[{\"key\": \"value\"}]";
-    AtomicFileOpsModule fom = new AtomicFileOpsModule(null);
+    AtomicFileOpsModule fom = new AtomicFileOpsModule(new ReactApplicationContext(InstrumentationRegistry.getContext()));
     String timeString = Calendar.getInstance().getTime().toString().replaceAll(" ","").replaceAll(":","");
-    File outputDir = InstrumentationRegistry.getContext().getCacheDir();
-    String filePath = outputDir + "/AtomicFileOpsModuleTest.test." + timeString + ".json";
-    File f = new File(filePath);
+    String filePath = "AtomicFileOpsModuleTest.test." + timeString + ".json";
+    File f = new File(InstrumentationRegistry.getContext().getCacheDir().getAbsolutePath() + filePath);
     //Make sure file doesn't already exist
     if (f.exists()) {
       boolean deleted = f.delete();
@@ -115,11 +105,10 @@ public class AtomicFileOpsModuleTests {
   @Test
   public void badCharacterSet() throws JSONException, IOException {
     String jsonString = "[{\"key\": \"value\"}]";
-    AtomicFileOpsModule fom = new AtomicFileOpsModule(null);
+    AtomicFileOpsModule fom = new AtomicFileOpsModule(new ReactApplicationContext(InstrumentationRegistry.getContext()));
     String timeString = Calendar.getInstance().getTime().toString().replaceAll(" ","").replaceAll(":","");
-    File outputDir = InstrumentationRegistry.getContext().getCacheDir();
-    String filePath = outputDir + "/AtomicFileOpsModuleTest.test." + timeString + ".json";
-    File f = new File(filePath);
+    String filePath = "AtomicFileOpsModuleTest.test." + timeString + ".json";
+    File f = new File(InstrumentationRegistry.getContext().getCacheDir().getAbsolutePath() + filePath);
     //Make sure file doesn't already exist
     if (f.exists()) {
       boolean deleted = f.delete();
@@ -138,10 +127,10 @@ public class AtomicFileOpsModuleTests {
   @Test
   public void badFilePath() throws JSONException, IOException {
     String jsonString = "[{\"key\": \"value\"}]";
-    AtomicFileOpsModule fom = new AtomicFileOpsModule(null);
+    AtomicFileOpsModule fom = new AtomicFileOpsModule(new ReactApplicationContext(InstrumentationRegistry.getContext()));
     String timeString = Calendar.getInstance().getTime().toString().replaceAll(" ","").replaceAll(":","");
-    String filePath = "/No Such File /AtomicFileOpsModuleTest.test.json";
-    File f = new File(filePath);
+    String filePath = "../../../No Such File /AtomicFileOpsModuleTest.test.json";
+    File f = new File(InstrumentationRegistry.getContext().getCacheDir().getAbsolutePath() + filePath);
 
     SimplePromise p = new SimplePromise();
 

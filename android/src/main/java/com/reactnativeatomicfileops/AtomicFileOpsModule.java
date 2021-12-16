@@ -34,40 +34,51 @@ public class AtomicFileOpsModule extends ReactContextBaseJavaModule {
         return "AtomicFileOps";
     }
 
+    //JavaScript doesn't have a Charset type, so we have to pass a String in
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @ReactMethod
-    public void multiply(int a, int b, Promise promise) {
-        // TODO: Implement some actually useful functionality
-        promise.resolve(a * b);
-    }
+    public void writeFile(String fileName, String contents, String encoding, Promise promise) {
+      byte[] encoded = null;
 
-    //JavaScript doesn't have a characterset type, so we have to pass a String in
-    @ReactMethod
-    public void writeFile(String filePath, String contents, String characterSetName, Promise promise) {
+      switch (encoding.toLowerCase()) {
+        case "utf8":
+          encoded = contents.getBytes(StandardCharsets.UTF_8);
+          break;
+        case "ascii":
+          encoded = contents.getBytes(StandardCharsets.US_ASCII);
+          break;
+        case "base64":
+          String base64 = Base64.encodeToString(contents.getBytes(), Base64.DEFAULT);
+          encoded = Base64.decode(base64, Base64.DEFAULT);
+          break;
+        default:
+          System.out.println("Bad Encoding:  Please enter Unicode (.utf8), ASCII (.ascii), or Base64 (.base64).");
+      }
 
-      Charset charset;
       try {
-        charset = Charset.forName(characterSetName);
-        writeFile(filePath, contents, charset, promise);
+        writeFile(fileName, encoded, promise);
       } catch (Exception ex) {
         promise.reject(ex);
       }
     }
 
-    //Typesafe method that knows what a characterset is
-    private void writeFile(String filePath, String contents, Charset characterSet, Promise promise) {
-        try {
-          byte[] data = contents.getBytes(characterSet);
-
-            File file = new File(filePath);
-            AtomicFile af = new AtomicFile(file);
-            FileOutputStream fos = af.startWrite();
-            fos.write(data);
-            af.finishWrite(fos);
-
-            promise.resolve(null);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            promise.reject(filePath, ex);
+    private void writeFile(String filePath, byte[] encoded, Promise promise) {
+      try {
+        String fullFilePath = filePath;
+        if (!filePath.contains("/")) {
+          fullFilePath = reactContext.getApplicationContext().getFilesDir().getAbsolutePath() + "/" + filePath;
         }
+
+        File file = new File(fullFilePath);
+        AtomicFile af = new AtomicFile(file);
+        FileOutputStream fos = af.startWrite();
+        fos.write(encoded);
+        af.finishWrite(fos);
+
+        promise.resolve(null);
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        promise.reject(filePath, ex);
+      }
     }
 }

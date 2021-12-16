@@ -6,16 +6,22 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start"
+    "start": "react-native start",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "react": "16.11.0",
-    "react-native": "0.62.2"
+    "react": "^17.0.2",
+    "react-native": "^0.64.2",
+    "react-native-fs": "^2.18.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/runtime": "^7.9.6",
-    "babel-plugin-module-resolver": "^4.0.0",
-    "metro-react-native-babel-preset": "^0.59.0"
+    "@babel/core": "^7.15.0",
+    "@babel/runtime": "^7.15.3",
+    "@react-native-community/eslint-config": "^3.0.1",
+    "@types/cavy": "^3.2.1",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "cavy": "^4.0.1",
+    "eslint": "^7.32.0",
+    "metro-react-native-babel-preset": "^0.66.2"
   }
 }

@@ -11,6 +11,8 @@
 		D37D70C32559A24300CF9548 /* AtomicFileOperationsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37D70C22559A24300CF9548 /* AtomicFileOperationsTests.swift */; };
 		D37D70C52559A24300CF9548 /* AtomicFileOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = D37D70B72559A24300CF9548 /* AtomicFileOperations.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D37D70D12559A2A300CF9548 /* AtomicFileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37D70D02559A2A300CF9548 /* AtomicFileHandler.swift */; };
+		F9289CDE2579515F00056670 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9289CDD2579515F00056670 /* FileManager.swift */; };
+		F9844D7E26ED684800685249 /* AtomicFileHandlerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9844D7D26ED684800685249 /* AtomicFileHandlerError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +33,8 @@
 		D37D70C22559A24300CF9548 /* AtomicFileOperationsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicFileOperationsTests.swift; sourceTree = "<group>"; };
 		D37D70C42559A24300CF9548 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D37D70D02559A2A300CF9548 /* AtomicFileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicFileHandler.swift; sourceTree = "<group>"; };
+		F9289CDD2579515F00056670 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		F9844D7D26ED684800685249 /* AtomicFileHandlerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicFileHandlerError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 		D37D70B62559A24300CF9548 /* AtomicFileOperations */ = {
 			isa = PBXGroup;
 			children = (
+				F9289CDC2579514700056670 /* Extensions */,
 				D37D70B72559A24300CF9548 /* AtomicFileOperations.h */,
 				D37D70B82559A24300CF9548 /* Info.plist */,
 				D37D70D02559A2A300CF9548 /* AtomicFileHandler.swift */,
@@ -87,6 +92,15 @@
 				D37D70C42559A24300CF9548 /* Info.plist */,
 			);
 			path = AtomicFileOperationsTests;
+			sourceTree = "<group>";
+		};
+		F9289CDC2579514700056670 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F9289CDD2579515F00056670 /* FileManager.swift */,
+				F9844D7D26ED684800685249 /* AtomicFileHandlerError.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +213,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D37D70D12559A2A300CF9548 /* AtomicFileHandler.swift in Sources */,
+				F9289CDE2579515F00056670 /* FileManager.swift in Sources */,
+				F9844D7E26ED684800685249 /* AtomicFileHandlerError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
