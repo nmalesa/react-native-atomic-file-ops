@@ -38,7 +38,7 @@ yarn ios
 
 When the app is running successfully and ready to start testing, you should see the following screen:
 
-![App Landing Screen](https://bitbucket.org/nmalesa/react-native-atomic-file-ops/src/main/example/assets/appLandingScreen.png)
+![App Landing Screen](example/assets/appLandingScreen.png){width: 200}
 
 **Note:**  The above image is of an iPhone 12 Simulator display.  The appearance of your screen may vary slightly depending on which emulator, simulator, or physical device you are using.
 
