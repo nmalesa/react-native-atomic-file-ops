@@ -38,7 +38,7 @@ yarn ios
 
 When the app is running successfully and ready to start testing, you should see the following screen:
 
-![App Landing Screen](./example/assets/appLandingScreen.png){width: 200}
+![App Landing Screen](./example/assets/appLandingScreen.png)
 
 **Note:**  The above image is of an iPhone 12 Simulator display.  The appearance of your screen may vary slightly depending on which emulator, simulator, or physical device you are using.
 
