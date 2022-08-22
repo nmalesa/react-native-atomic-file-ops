@@ -65,7 +65,7 @@ Writes the `contents` atomically to the given file, `fileName`.
 `encoding` allows for the encoded character sets `"utf8"`, `"ascii"`, and `"base64"` (accepts both uppercase and lowercase strings).
 
 ## Example App
-An example React Native app demonstrates how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s [documentation](example/README.md) for information on running the app and its tests.
+An example React Native app demonstrates how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s [documentation](https://github.com/nmalesa/react-native-atomic-file-ops-example) for information on running the app and its tests.
 
 ## Tests
 The `writeFile` API has been tested on both [Android](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/android/src/androidTest/java/com/reactnativeatomicfileops/AtomicFileOpsModuleTests.java) and [iOS](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/ios/AtomicFileOperations/AtomicFileOperationsTests/AtomicFileOperationsTests.swift).  Scenarios tested include:
@@ -75,10 +75,12 @@ The `writeFile` API has been tested on both [Android](https://github.com/nmalesa
 * Providing `writeFile` with a corrupted character set
 * Providing `writeFile` with a corrupted file path
 
-Additionally, the library has been tested on React Native in an example app using [Cavy](example/specs/atomicFileWritingSpec.js).  See the example app’s [documentation](example/README.md) for information on running Cavy tests.
+Additionally, the library has been tested on [React Native](https://github.com/nmalesa/react-native-atomic-file-ops-example/blob/main/specs/atomicFileWritingSpec.js) in an example app using the [Cavy](https://cavy.app/) test framework.  See the example app’s [documentation](https://github.com/nmalesa/react-native-atomic-file-ops-example) for information on running Cavy tests.
 
 ## Contributing
-`react-native-atomic-file-ops` is open-source.  If you find a bug or have an idea for improving this project, please open an issue.
+`react-native-atomic-file-ops` is open-source.  If you find a bug or have an idea for improving this project, feel free to contribute!
+
+Please read our [Contribution Guidelines](https://github.com/nmalesa/react-native-atomic-file-ops/CONTRIBUTING.md) to get started.
 
 ## Credits
 * [Natalia Malesa](https://github.com/nmalesa)
@@ -86,4 +88,4 @@ Additionally, the library has been tested on React Native in an example app usin
 * [OnlineMedEd](https://github.com/onlinemeded/react-native-atomic-file-ops)
 
 ## License
-[MIT](LICENSE)
+[MIT](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/LICENSE)
