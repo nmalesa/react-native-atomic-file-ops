@@ -14,7 +14,7 @@ No open source file systems libraries available for React Native supported writi
 * Contributing
 * Credits
 * License
- 
+
 ## Installation
 While this library was initially built to fix a bug occurring on a specific version of Android, it supports both Android and iOS.
 
@@ -41,32 +41,34 @@ import AtomicFileOps from "react-native-atomic-file-ops";
 // ...
 
 // EXAMPLE:  Writes to a JSON file
-const fileName = 'CavyImageMetadata.json'
+const fileName = "CavyImageMetadata.json"
 
 const imageMetadata = [
   {
-    title: 'Sasu the Guinea Pig',
-    alt: 'Guinea pig in green grass with dandelions',
-    creator: 'andymiccone',
-    url: 'https://live.staticflickr.com/7377/26722155994_5200abc340_b.jpg',
-    license: 'CC0 1.0'
+    title: "Sasu the Guinea Pig",
+    alt: "Guinea pig in green grass with dandelions",
+    creator: "andymiccone",
+    url: "https://live.staticflickr.com/7377/26722155994_5200abc340_b.jpg",
+    license: "CC0 1.0",
   }
 ]
 
-const unicode = 'UTF8'
+const unicode = "UTF8"
 
 await AtomicFileOps.writeFile(fileName, JSON.stringify(imageMetadata), unicode)
 ```
 
 ## API
 ### ```writeFile(fileName: String, contents: String, encoding: String)```
-Writes the `contents` atomically to the given file, `fileName`. `encoding` allows for the following encoded character sets:  `utf8`, `ascii`, or `base64`.
+Writes the `contents` atomically to the given file, `fileName`.
+
+`encoding` allows for the encoded character sets `"utf8"`, `"ascii"`, and `"base64"` (accepts both uppercase and lowercase strings).
 
 ## Example App
-This library includes an example app showing how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s [documentation](example/README.md) for information on running the app and its tests.
+An example React Native app demonstrates how `react-native-atomic-file-ops` can be used to overwrite files.  See the example app’s [documentation](example/README.md) for information on running the app and its tests.
 
 ## Tests
-The `writeFile` API has been tested in both [Java](android/src/androidTest/java/com/reactnativeatomicfileops/AtomicFileOpsModuleTests.java) and [Swift](ios/AtomicFileOperations/AtomicFileOperationsTests/AtomicFileOperationsTests.swift).  Scenarios tested include:
+The `writeFile` API has been tested on both [Android](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/android/src/androidTest/java/com/reactnativeatomicfileops/AtomicFileOpsModuleTests.java) and [iOS](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/ios/AtomicFileOperations/AtomicFileOperationsTests/AtomicFileOperationsTests.swift).  Scenarios tested include:
 
 * Writing JSON to a file
 * Overwriting an existing file with truncated data
@@ -79,7 +81,9 @@ Additionally, the library has been tested on React Native in an example app usin
 `react-native-atomic-file-ops` is open-source.  If you find a bug or have an idea for improving this project, please open an issue.
 
 ## Credits
-Natalia Malesa and Carl Brown
+* [Natalia Malesa](https://github.com/nmalesa)
+* [Carl Brown](https://github.com/carlbrown)
+* [OnlineMedEd](https://github.com/onlinemeded/react-native-atomic-file-ops)
 
 ## License
 [MIT](LICENSE)
