@@ -1,7 +1,7 @@
 {
   "name": "react-native-atomic-file-ops",
-  "version": "0.1.0",
-  "description": "Atomic File Operations for React Native",
+  "version": "0.0.0",
+  "description": "Atomic file operations for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
@@ -34,13 +34,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/onlinemeded/react-native-atomic-file-ops.git",
-  "author": "Natalia Malesa <natalia@onlinemeded.org> (https://onlinemeded.org)",
+  "repository": "https://github.com/nmalesa/react-native-atomic-file-ops.git",
+  "author": "Natalia Malesa <nmalesa@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/onlinemeded/react-native-atomic-file-ops.git/issues"
+    "url": "https://github.com/nmalesa/react-native-atomic-file-ops.git/issues"
   },
-  "homepage": "https://github.com/onlinemeded/react-native-atomic-file-ops.git#readme",
+  "homepage": "https://github.com/nmalesa/react-native-atomic-file-ops.git#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.16.2",
