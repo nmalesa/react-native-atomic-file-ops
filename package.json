@@ -14,13 +14,9 @@
     "ios",
     "cpp",
     "react-native-atomic-file-ops.podspec",
-    "!lib/typescript/example",
-    "!**/__tests__",
-    "!**/__fixtures__",
-    "!**/__mocks__"
+    "!lib/typescript/example"
   ],
   "scripts": {
-    "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "prepare": "bob build",
@@ -52,8 +48,6 @@
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.1",
-    "jest": "^28.1.3",
     "pod-install": "^0.1.38",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
@@ -64,19 +58,6 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
-  },
-  "jest": {
-    "preset": "react-native",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
-    }
   },
   "commitlint": {
     "extends": [
@@ -137,8 +118,5 @@
       "module",
       "typescript"
     ]
-  },
-  "dependencies": {
-    "@types/jest": "^28.1.8"
   }
 }
