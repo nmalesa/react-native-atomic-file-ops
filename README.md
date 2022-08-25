@@ -8,14 +8,14 @@ No open source file systems libraries available for React Native supported writi
 
 ## Table of Contents
 
-- Installation
-- How to Use
-- API
-- Example App
-- Tests
-- Contributing
-- Credits
-- License
+- [Installation](#installation)
+- [How to Use](#how-to-use)
+- [API](#api)
+- [Example App](#example-app)
+- [Tests](#tests)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
 ## Installation
 
