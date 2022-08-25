@@ -1,6 +1,6 @@
 # AtomicFileOps Example App
 
-This React Native app provides an example of how the [`react-native-atomic-file-ops` library](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/README.md) can be imported and used. It also demonstrates how the library is able to successfully overwrite existing content in a file with truncated data.
+This React Native app provides an example of how the [`react-native-atomic-file-ops` library](https://github.com/nmalesa/react-native-atomic-file-ops) can be imported and used. It also demonstrates how the library is able to successfully overwrite existing content in a file with truncated data.
 
 See the library in use in the [atomic file writing integration tests](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/specs/atomicFileWritingSpec.js).
 
@@ -43,7 +43,7 @@ yarn ios
 
 When the app is running successfully and ready to start testing, you should see the following screen:
 
-<img src="https://github.com/nmalesa/react-native-atomic-file-ops-example/blob/main/example/assets/landingScreen.png" width="200" alt="Example App Landing Screen">
+<img src="https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/assets/landingScreen.png" width="200" alt="AtomicFileOps Example App Landing Screen">
 
 **Note:** The above image is of an iPhone 13 Simulator display. The appearance of your screen may vary slightly depending on which emulator, simulator, or physical device you are using.
 

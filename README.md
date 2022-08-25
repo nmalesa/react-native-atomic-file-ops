@@ -73,7 +73,7 @@ Writes the `contents` atomically to the given file, `fileName`.
 
 ## Example App
 
-An example React Native app demonstrates how `react-native-atomic-file-ops` can be used to overwrite files. See the example app’s [documentation](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/README.md) for information on running the app and its tests.
+An [example React Native app](https://github.com/nmalesa/react-native-atomic-file-ops/tree/main/example) demonstrates how `react-native-atomic-file-ops` can be used to overwrite files. See the example app’s [documentation](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/README.md) for information on running the app and its tests.
 
 ## Tests
 
@@ -84,7 +84,7 @@ The `writeFile` API has been tested on both [Android](https://github.com/nmalesa
 - Providing `writeFile` with a corrupted character set
 - Providing `writeFile` with a corrupted file path
 
-Additionally, the library has been tested on [React Native](https://github.com/nmalesa/react-native-atomic-file-ops-example/blob/main/example/specs/atomicFileWritingSpec.js) in an example app using the [Cavy](https://cavy.app/) test framework. See the example app’s [documentation](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/README.md) for information on running Cavy tests.
+Additionally, the library has been tested on [React Native](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/specs/atomicFileWritingSpec.js) in an example app using the [Cavy](https://cavy.app/) test framework. See the example app’s [documentation](https://github.com/nmalesa/react-native-atomic-file-ops/blob/main/example/README.md) for information on running Cavy tests.
 
 ## Contributing
 
